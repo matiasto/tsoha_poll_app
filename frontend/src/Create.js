@@ -7,7 +7,14 @@ const defaultMeta = {
 };
 
 function CreatePoll() {
-    const [meta, setMeta] = useState(defaultMeta)
+    const [meta, setMeta] = useState(defaultMeta);
+
+    const setMetaData = (field, value) => {
+        setMeta({
+            ...meta,
+            [field]: value
+        });
+    }
 
     return (
         <div className="create_poll">
@@ -19,6 +26,7 @@ function CreatePoll() {
                         type="text"
                         id="poll_title"
                         value={meta.poll_title}
+                        onChange={(e) => setMetaData("poll_title", e.target.value)}
                     />
                 </div>
                 <div className="poll_description">
@@ -28,6 +36,7 @@ function CreatePoll() {
                         id="poll_description"
                         value={meta.poll_description}
                         maxLength="300"
+                        onChange={(e) => setMetaData("poll_description", e.target.value)}
                     />
                 </div>
                 <div className="credits_per_voter">
@@ -38,6 +47,7 @@ function CreatePoll() {
                         value={meta.credits_per_voter}
                         min="1"
                         max="250"
+                        onChange={(e) => setMetaData("credits_per_voter", e.target.value)}
                     />
                 </div>
             </div>
