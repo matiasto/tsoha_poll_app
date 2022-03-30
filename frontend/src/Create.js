@@ -115,7 +115,7 @@ function CreatePoll() {
             </div>
             <div className="questions">
                 <h2>Questions</h2>
-                <div className="questions_submittion">
+                <div className="questions_submission">
                     {poll.map((element, index) => {
                         return (
                             <div className="create_and_modify_questions">
@@ -123,19 +123,20 @@ function CreatePoll() {
                                     <h4>{element.header}</h4>
                                     <p>{element.description}</p>
                                 </div>
-                                <div className="action_buttons">
-                                    <button onClick={() => editQuestion(index)}>Edit</button>
-                                    <button onClick={() => deleteQuestionFromPoll(index)}></button>
+                                <div className="buttons">
+                                    <button class="action_buttons" onClick={() => editQuestion(index)}>Edit</button>
+                                    <button class="action_buttons" onClick={() => deleteQuestionFromPoll(index)}>Delete</button>
                                 </div>
                             </div>
                         );
                     })}
                 </div>
                 <div className="add_questions">
+                    <h4>Add Question</h4>
                     <div className="add_question_header">
                         <input
                             type="text"
-                            placeholder="Questino header"
+                            placeholder="Question header"
                             value={current.header}
                             onChange={e => updateCurrent("header", e.target.value)}
                         />
