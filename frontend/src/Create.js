@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 
 const defaultMeta = {
@@ -53,6 +54,24 @@ function CreatePoll() {
         deleteQuestionFromPoll(
             index
         );
+    };
+
+    const submitPoll = (e) => {
+        e.preventDefault()
+        const thePoll = { meta, poll };
+        axios({
+            method: "POST",
+            url: 'http://127.0.0.1:5000/poll/create',
+            data: {
+                body: thePoll
+            }
+        }).then((response) => {
+            console.log(response)
+        }).catch((error) => {
+            console.log(error.response)
+            console.log(error.response.status)
+            console.log(error.response.headers)
+        })
     };
    
 
@@ -137,7 +156,7 @@ function CreatePoll() {
                 </div>
                 <div className="submit_poll">
                     {poll.length > 0 ? (
-                        <button>Create poll</button>
+                        <button onClick={submitPoll}>Create poll</button>
                     ) : (
                         <button disabled>Add one before submitting</button>
                     )}
