@@ -7,4 +7,3 @@ load_dotenv(find_dotenv())
 
 app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
 db = SQLAlchemy(app)
-print(db.session.execute("SELECT 1").fetchone())
