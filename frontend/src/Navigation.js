@@ -1,11 +1,8 @@
-const Navigation = () => {
+function Navigation() {
     return (
-      <nav className="navbar">
-        <div className="links">
-          <a href="/">Home</a>
-        </div>
-      </nav>
+        <nav className="navbar">
+            <a href="/">Home</a>
+            <a href="/create">Create a Poll</a>
+        </nav>
     );
-  }
-   
-  export default Navigation;
+}

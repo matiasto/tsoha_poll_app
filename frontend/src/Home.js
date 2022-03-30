@@ -1,14 +1,10 @@
-import React from "react";
-
 function Home() {
-  return (
-    <div class="home">
-        <h1>Home</h1>
-        <p>
-            Lorem Ipsum is - en muista enään.
-        </p>
-    </div>
-  );
+    return (
+        <div className="home">
+            <h1>Home</h1>
+            <p>Lorem Ipsum - en muista enempää</p>
+        </div>
+    );
 }
 
-export default Home;
+export default Home
