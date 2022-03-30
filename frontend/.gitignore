@@ -1,14 +1,3 @@
-
-### backend ###
-
-venv
-__pycache__
-.env
-.flaskenv
-
-
-### frontend ###
-
 # dependencies
 /node_modules
 /.pnp
