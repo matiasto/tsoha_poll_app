@@ -25,7 +25,7 @@ create table questions (
 create table answers (
     answer_id integer generated always as identity,
     question_id integer,
-    votes integer ,
+    votes integer,
     sent_at timestamp,
     primary key(answer_id),
 	constraint fk_question

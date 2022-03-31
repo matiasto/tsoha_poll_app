@@ -11,7 +11,7 @@ class PollApi(Resource):
         result = db.session.execute(sql, {"id":poll_id})
         polls = result.fetchall()
         headers = ["title", "description", "credits"]
-        meta = FormatterTool.to_json(headers, polls)
+        meta = FormatterTool.to_json(headers, polls)[0]
 
         sql = "SELECT question_id, header, description FROM questions WHERE poll_id=:id"
         result = db.session.execute(sql, {"id":poll_id})
