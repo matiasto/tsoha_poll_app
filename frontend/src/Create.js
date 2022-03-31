@@ -22,41 +22,25 @@ function CreatePoll() {
     const navigate = useNavigate();
 
     const setMetaData = (field, value) => {
-        setMeta({
-            ...meta,
-            [field]: value
-        });
+        setMeta({...meta, [field]: value});
     };
 
     const pushQuestionToPoll = () => {
-        setPoll(
-            oldPoll => [...oldPoll, current]
-        );
-        setCurrent(
-            defaultQuestion
-        );
+        setPoll(oldPoll => [...oldPoll, current]);
+        setCurrent(defaultQuestion);
     };
 
     const deleteQuestionFromPoll = index => {
-        setPoll(
-            poll.filter((_, i) => i !== index)
-        );
+        setPoll(poll.filter((_, i) => i !== index));
     };
 
     const updateCurrent = (field, value) => {
-        setCurrent({
-            ...current,
-            [field]: value
-        });
+        setCurrent({...current, [field]: value});
     };
 
     const editQuestion = index => {
-        setCurrent(
-            poll[index]
-        );
-        deleteQuestionFromPoll(
-            index
-        );
+        setCurrent(poll[index]);
+        deleteQuestionFromPoll(index);
     };
 
     const submitPoll = e => {
