@@ -61,17 +61,12 @@ function CreatePoll() {
 
     const submitPoll = (e) => {
         e.preventDefault()
-        const thePoll = { meta, poll };
-
+        const url = 'http://127.0.0.1:5000/poll/create'
+        const data = { meta, poll };
+        
         setPending(true);
 
-        axios({
-            method: "POST",
-            url: 'http://127.0.0.1:5000/poll/create',
-            data: {
-                body: thePoll
-            }
-        }).then((response) => {
+        axios.post(url, data).then((response) => {
             console.log(response);
             setPending(false);
             navigate("/");
