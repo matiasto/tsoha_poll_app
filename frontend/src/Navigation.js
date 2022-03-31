@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 function Navigation() {
     return (
         <nav className="navbar">
-            <a href="/">Home</a>
-            <a href="/create">Create a Poll</a>
+            <Link to="/">Home</Link>
+            <Link to="create">Create a Poll</Link>
         </nav>
     );
 }

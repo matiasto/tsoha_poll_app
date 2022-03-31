@@ -11,8 +11,8 @@ import CreatePoll from "./Create";
 function App() {
     return (
         <div className="app">
-            <Navigation />
             <BrowserRouter>
+                <Navigation />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="create" element={<CreatePoll />} />
