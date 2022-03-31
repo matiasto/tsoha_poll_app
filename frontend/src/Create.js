@@ -61,7 +61,7 @@ function CreatePoll() {
 
     const submitPoll = (e) => {
         e.preventDefault()
-        const url = 'http://127.0.0.1:5000/poll/create'
+        const url = 'http://127.0.0.1:5000/api/polls'
         const data = { meta, poll };
         
         setPending(true);
