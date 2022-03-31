@@ -23,30 +23,59 @@ function Poll() {
     }, []);
 
     const setInitialState = data => {
-        setMeta(data["meta"]["0"]);
+        setMeta(data["meta"]);
         setQuestions(data["data"]);
-        setCredits(meta["credits"]);
+        setCredits(data["meta"]["credits"]);
+        const a = Array(data['data'].length).fill(0);
+        setVotesArray(a);
     };
+
+    const newSum = array => {
+        const theNewSum = array.map(n => n * n).reduce((i, j) => i + j, 0);
+        setCredits(meta['credits'] - theNewSum);
+    }
+
+    const castAVote = (index, direction) => {
+        const shallowCopy = votesArray;
+        direction ? (shallowCopy[index] = shallowCopy[index] + 1)
+                  : (shallowCopy[index] = shallowCopy[index] - 1);
+        setVotesArray(shallowCopy);
+        newSum(shallowCopy);
+    }
 
     return (
         <div className="vote">
-            { pending ? (<div>Loading...</div>) : (
-                // {/* <p>{credits}</p>
-                // <p>{questions}</p> */}
-                <div>
-                <label>Title: {meta['title']}</label>
-                <label>Description: {meta['description']}</label>
-                <label>Credits: {credits}</label>
-                {questions.map(question => {
-                    return(
-                        <div className="poll_menu" key={question["question_id"]} >
-                            <h3>Title: {question["header"]}</h3>
-                            <p>Description: {question["description"]}</p>
-                        </div>
-                    );
-                })}
+            { pending ? (<div><h3>Loading...</h3></div>) : (
+                <div className="voting_area">
+                    <div className="poll_meta">
+                        <h2>{meta['title']}</h2>
+                        <p>{meta['description']}</p>
+                        <p>Total Credits: {meta['credits']}</p>
+                    </div>
+                    <div className="poll_questions">
+                        {questions.map((question, index) => {
+                            return (
+                                <div className="poll_question" key={index}>
+                                    <div className="header">
+                                        <h4>{question['header']}</h4>
+                                    </div>
+                                    <div className="description">
+                                        <p>{question['description']}</p>
+                                    </div>
+                                    <div className="vote_info">
+                                        <label className="live_credits">Credits left: {credits}</label>
+                                        <label className="votes_given">Assigned Votes: {votesArray[index]}</label>
+                                    </div>
+                                    <div className="vote_buttons">
+                                        <button onClick={() => castAVote(index, true)}>+</button>
+                                        <button onClick={() => castAVote(index, false)}>-</button>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
-                )}
+            )}
         </div>
     );
 }
