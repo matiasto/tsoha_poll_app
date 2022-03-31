@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 const defaultMeta = {
@@ -17,6 +18,8 @@ function CreatePoll() {
     const [meta, setMeta] = useState(defaultMeta);
     const [current, setCurrent] = useState(defaultQuestion);
     const [poll, setPoll] = useState([]);
+    const [pending, setPending] = useState(false);
+    const navigate = useNavigate();
 
     const setMetaData = (field, value) => {
         setMeta({
@@ -59,6 +62,9 @@ function CreatePoll() {
     const submitPoll = (e) => {
         e.preventDefault()
         const thePoll = { meta, poll };
+
+        setPending(true);
+
         axios({
             method: "POST",
             url: 'http://127.0.0.1:5000/poll/create',
@@ -66,11 +72,11 @@ function CreatePoll() {
                 body: thePoll
             }
         }).then((response) => {
-            console.log(response)
+            console.log(response);
+            setPending(false);
+            navigate("/");
         }).catch((error) => {
-            console.log(error.response)
-            console.log(error.response.status)
-            console.log(error.response.headers)
+            console.log(error.response);
         })
     };
    
@@ -124,8 +130,8 @@ function CreatePoll() {
                                     <p>{element.description}</p>
                                 </div>
                                 <div className="buttons">
-                                    <button class="action_buttons" onClick={() => editQuestion(index)}>Edit</button>
-                                    <button class="action_buttons" onClick={() => deleteQuestionFromPoll(index)}>Delete</button>
+                                    <button className="action_buttons" onClick={() => editQuestion(index)}>Edit</button>
+                                    <button className="action_buttons" onClick={() => deleteQuestionFromPoll(index)}>Delete</button>
                                 </div>
                             </div>
                         );
@@ -157,7 +163,7 @@ function CreatePoll() {
                 </div>
                 <div className="submit_poll">
                     {poll.length > 0 ? (
-                        <button onClick={submitPoll}>Create poll</button>
+                        pending ? (<button disabled>Submitting...</button>) : (<button onClick={submitPoll}>Create poll</button>)
                     ) : (
                         <button disabled>Add one before submitting</button>
                     )}
