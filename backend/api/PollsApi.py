@@ -10,7 +10,7 @@ class PollsApi(Resource):
         result = db.session.execute(sql)
         polls = result.fetchall()
         headers = ["poll_id", "title", "description", "created_at"]
-        data = FormatterTool.to_json(headers, polls)
+        data = FormatterTool.to_json(headers, polls, to_json=True)
         return jsonify(data)
 
     def post(self):

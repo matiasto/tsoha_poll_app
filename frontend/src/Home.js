@@ -11,7 +11,6 @@ function Home() {
                 setPolls(data);
             })
             .catch(function (error) {
-                // handle error
                 console.log(error);
             });
     }, []);
