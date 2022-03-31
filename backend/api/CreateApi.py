@@ -3,10 +3,9 @@ from flask_restful import Resource
 from db import db
 
 
-class CreateApiHandler(Resource):
+class CreateApi(Resource):
     def post(self):
-        package = request.json['body']
-        meta = package['meta']
+        meta = request.json['meta']
         poll_title = meta["poll_title"]
         poll_description = meta["poll_description"]
         poll_credits = meta["credits_per_voter"]
@@ -20,7 +19,7 @@ class CreateApiHandler(Resource):
                   "credits": poll_credits})
 
         poll_id = result.fetchone()[0]
-        questions = package["poll"]
+        questions = request.json['poll']
         for question in questions:
             header = question["header"]
             description = question["description"]
