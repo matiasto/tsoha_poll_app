@@ -6,7 +6,9 @@ app = Flask(__name__, static_folder="client/build", static_url_path="/")
 from flask_restful import Api
 from api.PollsApi import PollsApi
 from api.PollApi import PollApi
+from flask_cors import CORS
 
+CORS(app)
 api = Api(app)
 
 @app.route("/")

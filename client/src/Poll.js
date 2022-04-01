@@ -71,7 +71,7 @@ function Poll() {
 
     const submitAnswer = e => {
         e.preventDefault()
-        const url = `api/poll/${poll_id}`
+        const url = `/api/poll/${poll_id}`
         const data = bindAnswerToQuestionId();
         
         setPending(true);
