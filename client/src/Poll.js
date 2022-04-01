@@ -12,7 +12,7 @@ function Poll() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/api/poll/${poll_id}`)
+        axios.get(`/api/poll/${poll_id}`)
             .then(response => {
                 const data = response.data
                 setInitialState(data);
@@ -71,7 +71,7 @@ function Poll() {
 
     const submitAnswer = e => {
         e.preventDefault()
-        const url = `http://127.0.0.1:5000/api/poll/${poll_id}`
+        const url = `api/poll/${poll_id}`
         const data = bindAnswerToQuestionId();
         
         setPending(true);

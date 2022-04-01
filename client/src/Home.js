@@ -5,7 +5,7 @@ import PollList from "./PollsList";
 function Home() {
     const [polls, setPolls] = useState(null);
     useEffect(() => {
-        axios.get("http://127.0.0.1:5000/api/polls")
+        axios.get("/api/polls")
             .then(response => {
                 const data = JSON.parse(response.data)
                 setPolls(data);
