@@ -7,7 +7,7 @@ create table polls (
 	title text not null,
 	description text,
 	credits integer,
-	visibility boolean default true,
+	visible boolean default true,
 	created_at timestamp,
 	primary key(poll_id)
 );
