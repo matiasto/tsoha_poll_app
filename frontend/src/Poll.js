@@ -31,7 +31,8 @@ function Poll() {
     };
 
     const newSum = array => {
-        const theNewSum = array.map(n => n * n).reduce((i, j) => i + j, 0);
+        const theNewSum = array.map(n => n ** 2).reduce((i, j) => i + j, 0);
+        console.log(theNewSum);
         setCredits(meta['credits'] - theNewSum);
     }
 
@@ -40,8 +41,23 @@ function Poll() {
         direction ? (shallowCopy[index] = shallowCopy[index] + 1)
                   : (shallowCopy[index] = shallowCopy[index] - 1);
         setVotesArray(shallowCopy);
+        console.log(votesArray);
         newSum(shallowCopy);
-    }
+    };
+
+    const validate = (votes, direction) => {
+        if (credits === 0 && votes === 0) {
+            return false;
+        }
+        const increment = direction ? 1 : -1;
+        const newVotes = increment + votes;
+        const isPossible = credits >= Math.abs(votes ** 2 - newVotes ** 2);
+        if (direction) {
+            return votes <= 0 ? true : isPossible;
+        } else {
+            return votes >= 0 ? true : isPossible;
+        }
+    };
 
     return (
         <div className="vote">
@@ -67,8 +83,12 @@ function Poll() {
                                         <label className="votes_given">Assigned Votes: {votesArray[index]}</label>
                                     </div>
                                     <div className="vote_buttons">
-                                        <button onClick={() => castAVote(index, true)}>+</button>
-                                        <button onClick={() => castAVote(index, false)}>-</button>
+                                        {validate(votesArray[index], true) ? (
+                                            <button onClick={() => castAVote(index, true)}>+</button>
+                                        ) : (<button disabled>Too expensive</button>)}
+                                        {validate(votesArray[index], false) ? (
+                                            <button onClick={() => castAVote(index, false)}>-</button>
+                                        ) : (<button disabled>Too expensive</button>)}
                                     </div>
                                 </div>
                             )
