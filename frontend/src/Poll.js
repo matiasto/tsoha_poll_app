@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Navigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Poll() {
     const { poll_id } = useParams();
@@ -9,6 +9,7 @@ function Poll() {
     const [questions, setQuestions] = useState(null);
     const [votesArray, setVotesArray] = useState(null);
     const [pending, setPending] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`http://127.0.0.1:5000/api/poll/${poll_id}`)
@@ -78,7 +79,7 @@ function Poll() {
         axios.post(url, data).then((response) => {
             console.log(response);
             setPending(false);
-            Navigate("/");
+            navigate("/");
         }).catch((error) => {
             console.log(error.response);
         })
