@@ -6,7 +6,7 @@ from db import db
 
 class PollsApi(Resource):
     def get(self):
-        sql = "SELECT poll_id, title, description, created_at FROM polls ORDER BY poll_id DESC"
+        sql = "SELECT poll_id, title, description, created_at FROM polls WHERE visible ORDER BY poll_id DESC"
         result = db.session.execute(sql)
         polls = result.fetchall()
         headers = ["poll_id", "title", "description", "created_at"]

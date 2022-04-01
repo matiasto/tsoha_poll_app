@@ -4,9 +4,10 @@ drop table if exists polls;
 
 create table polls (
 	poll_id integer generated always as identity,
-	title text,
+	title text not null,
 	description text,
 	credits integer,
+	visibility boolean default true,
 	created_at timestamp,
 	primary key(poll_id)
 );
@@ -14,7 +15,7 @@ create table polls (
 create table questions (
 	question_id integer generated always as identity,
 	poll_id integer,
-	header text,
+	header text not null,
 	description text,
 	primary key(question_id),
 	constraint fk_poll

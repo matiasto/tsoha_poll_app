@@ -32,3 +32,7 @@ class PollApi(Resource):
                                               "votes": votes})
         db.session.commit()
 
+    def delete(self, poll_id):
+        sql = "UPDATE polls SET visible=false WHERE poll_id=:id"
+        db.session.execute(sql, {"id":poll_id})
+        db.session.commit()
