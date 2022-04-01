@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 function Poll() {
     const { poll_id } = useParams();
@@ -32,7 +32,6 @@ function Poll() {
 
     const newSum = array => {
         const theNewSum = array.map(n => n ** 2).reduce((i, j) => i + j, 0);
-        console.log(theNewSum);
         setCredits(meta['credits'] - theNewSum);
     }
 
@@ -41,7 +40,6 @@ function Poll() {
         direction ? (shallowCopy[index] = shallowCopy[index] + 1)
                   : (shallowCopy[index] = shallowCopy[index] - 1);
         setVotesArray(shallowCopy);
-        console.log(votesArray);
         newSum(shallowCopy);
     };
 
@@ -57,6 +55,33 @@ function Poll() {
         } else {
             return votes >= 0 ? true : isPossible;
         }
+    };
+
+    const bindAnswerToQuestionId = () => {
+        let arr = [];
+        for (let i = 0; i < questions.length; i++) {
+            let obj = {};
+            obj.id = questions[i]["question_id"];
+            obj.votes = votesArray[i];
+            arr.push(obj);
+        }
+        return arr;
+    };
+
+    const submitAnswer = e => {
+        e.preventDefault()
+        const url = `http://127.0.0.1:5000/api/poll/${poll_id}`
+        const data = bindAnswerToQuestionId();
+        
+        setPending(true);
+
+        axios.post(url, data).then((response) => {
+            console.log(response);
+            setPending(false);
+            Navigate("/");
+        }).catch((error) => {
+            console.log(error.response);
+        })
     };
 
     return (
@@ -93,6 +118,13 @@ function Poll() {
                                 </div>
                             )
                         })}
+                    </div>
+                    <div className="submission">
+                        <div className="submit_answer">
+                            { pending ? (
+                                <button disabled>Submit</button>
+                            ) : (<button onClick={submitAnswer}>Submit</button>)}
+                        </div>
                     </div>
                 </div>
             )}

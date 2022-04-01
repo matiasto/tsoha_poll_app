@@ -1,3 +1,4 @@
+import json
 from flask import jsonify, request
 from flask_restful import Resource
 from db import db
@@ -20,5 +21,12 @@ class PollApi(Resource):
         data = FormatterTool.to_json(headers, questions)
         return jsonify({"meta": meta, "data": data})
 
-    def delete(self, poll_id):
-        pass
+    def post(self, poll_id):
+        data = json.loads(request.data)
+        for i in data:
+            print(i["id"])
+            print(i["votes"])
+        return {
+            "status": "SUCCESS",
+            "message": "got to api"
+        }
