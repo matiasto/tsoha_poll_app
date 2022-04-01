@@ -6,7 +6,7 @@ from db import db
 
 class PollsApi(Resource):
     def get(self):
-        sql = "SELECT poll_id, title, description, created_at FROM polls WHERE visible ORDER BY poll_id DESC"
+        sql = "SELECT poll_id, title, description, created_at FROM polls WHERE visible=1 ORDER BY poll_id DESC"
         result = db.session.execute(sql)
         polls = result.fetchall()
         headers = ["poll_id", "title", "description", "created_at"]
@@ -19,8 +19,8 @@ class PollsApi(Resource):
         poll_description = meta["poll_description"]
         poll_credits = meta["credits_per_voter"]
 
-        sql = """INSERT INTO polls (title, description, credits, created_at) 
-                    VALUES (:title, :description, :credits, NOW()) RETURNING poll_id"""
+        sql = """INSERT INTO polls (title, description, credits, visible, created_at) 
+                    VALUES (:title, :description, :credits, 1, NOW()) RETURNING poll_id"""
 
         result = db.session.execute(
             sql, {"title": poll_title,
