@@ -21,7 +21,7 @@ function Poll() {
             .catch(function (error) {
                 console.log(error);
             });
-    }, []);
+    }, [poll_id]);
 
     const setInitialState = data => {
         setMeta(data["meta"]);
@@ -94,14 +94,12 @@ function Poll() {
                         <p>{meta['description']}</p>
                         <p>Total Credits: {meta['credits']}</p>
                     </div>
-                    <div className="poll_questions">
+                    <div className="poll-questions">
                         {questions.map((question, index) => {
                             return (
-                                <div className="poll_question" key={index}>
+                                <div className="question" key={index}>
                                     <div className="header">
-                                        <h4>{question['header']}</h4>
-                                    </div>
-                                    <div className="description">
+                                        <h2>{question['header']}</h2>
                                         <p>{question['description']}</p>
                                     </div>
                                     <div className="vote_info">
@@ -109,12 +107,13 @@ function Poll() {
                                         <label className="votes_given">Assigned Votes: {votesArray[index]}</label>
                                     </div>
                                     <div className="vote_buttons">
-                                        {validate(votesArray[index], true) ? (
-                                            <button onClick={() => castAVote(index, true)}>+</button>
-                                        ) : (<button disabled>Too expensive</button>)}
                                         {validate(votesArray[index], false) ? (
-                                            <button onClick={() => castAVote(index, false)}>-</button>
-                                        ) : (<button disabled>Too expensive</button>)}
+                                            <button className="button" onClick={() => castAVote(index, false)}>Disagree</button>
+                                        ) : (<button className="button" disabled>Not enough credits</button>)}
+                                        {validate(votesArray[index], true) ? (
+                                            <button className="button" onClick={() => castAVote(index, true)}>Agree</button>
+                                        ) : (<button className="button" disabled>Not enough credits</button>)}
+                                        
                                     </div>
                                 </div>
                             )

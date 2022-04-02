@@ -99,7 +99,7 @@ function CreatePoll() {
                 </div>
             </div>
             <div className="questions">
-                <h2>Questions</h2>
+                <h2>Statements</h2>
                 <div className="questions_submission">
                     {poll.map((element, index) => {
                         return (
@@ -117,11 +117,11 @@ function CreatePoll() {
                     })}
                 </div>
                 <div className="add_questions">
-                    <h4>Add Question</h4>
+                    <h4>Add Statement</h4>
                     <div className="add_question_header">
                         <input
                             type="text"
-                            placeholder="Question header"
+                            placeholder="Header"
                             value={current.header}
                             onChange={e => updateCurrent("header", e.target.value)}
                         />
@@ -135,16 +135,16 @@ function CreatePoll() {
                         />
                     </div>
                     {current.header !== "" ? (
-                        <button onClick={pushQuestionToPoll}>Add Question</button>
+                        <button onClick={pushQuestionToPoll}>Add</button>
                     ) : (
-                        <button disabled>Enter header</button>
+                        <button disabled>Missing Header</button>
                     )}
                 </div>
                 <div className="submit_poll">
                     {poll.length > 0 ? (
                         pending ? (<button disabled>Submitting...</button>) : (<button onClick={submitPoll}>Create poll</button>)
                     ) : (
-                        <button disabled>Add one before submitting</button>
+                        <button disabled>Add atleast one before submitting</button>
                     )}
                 </div>
             </div>
