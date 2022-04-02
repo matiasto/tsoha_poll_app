@@ -44,4 +44,4 @@ Sovellukseen pääsee [tästä linkistä](https://tsoha-poll-app.herokuapp.com/)
     - Käyttäjä voi hallinoida omia kyselyitä
     - Admin voi hallinnoida kaikkia käyttäjiä
 - Statistiikkaa kyselyiden tuloksista.
-- Palaute laatikko.
+- Palautelaatikko.
