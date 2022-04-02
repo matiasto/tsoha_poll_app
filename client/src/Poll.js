@@ -108,11 +108,11 @@ function Poll() {
                                     </div>
                                     <div className="vote_buttons">
                                         {validate(votesArray[index], false) ? (
-                                            <button className="button" onClick={() => castAVote(index, false)}>Disagree</button>
-                                        ) : (<button className="button" disabled>Not enough credits</button>)}
+                                            <button className="vote_button" onClick={() => castAVote(index, false)}>Disagree</button>
+                                        ) : (<button className="vote_button" disabled>Not enough credits</button>)}
                                         {validate(votesArray[index], true) ? (
-                                            <button className="button" onClick={() => castAVote(index, true)}>Agree</button>
-                                        ) : (<button className="button" disabled>Not enough credits</button>)}
+                                            <button className="vote_button" onClick={() => castAVote(index, true)}>Agree</button>
+                                        ) : (<button className="vote_button" disabled>Not enough credits</button>)}
                                         
                                     </div>
                                 </div>

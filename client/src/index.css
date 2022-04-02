@@ -42,7 +42,7 @@ strong {
 }
 
 button {
-    background-color: lightgreen; /* Green */
+    background-color: lightgreen;
     border: none;
     color: black;
     padding: 15px 32px;
@@ -94,4 +94,17 @@ button {
 
 .submission {
     margin-top: 50px;
+}
+
+.vote_button {
+    background-color: lightblue;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    margin: 15px;
+    text-align: center;
+    vertical-align: top;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
