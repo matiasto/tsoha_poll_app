@@ -6,10 +6,10 @@ from db import db
 
 class PollsApi(Resource):
     def get(self):
-        sql = "SELECT poll_id, title, description, created_at FROM polls WHERE visible=1 ORDER BY poll_id DESC"
+        sql = "SELECT poll_id, title, description, credits, created_at FROM polls WHERE visible=1 ORDER BY poll_id DESC"
         result = db.session.execute(sql)
         polls = result.fetchall()
-        headers = ["poll_id", "title", "description", "created_at"]
+        headers = ["poll_id", "title", "description", "credits", "created_at"]
         data = FormatterTool.to_json(headers, polls, to_json=True)
         return jsonify(data)
 
