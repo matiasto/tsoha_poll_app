@@ -1,8 +1,8 @@
 import PollList from "./PollsList";
-import UseFetch from "./UseFetch";
+import useAxios from "./useAxios";
 
 const Home = () => {
-    const { data: polls, pending, error } = UseFetch("http://127.0.0.1:5000/api/polls")
+    const { response: polls, loading, error } = useAxios({url: "/api/polls"})
 
     return (
         <div className="home">
@@ -12,7 +12,7 @@ const Home = () => {
             <div className="grid-container">
                 <div className="grid-item">
                     <h2>Active polls:</h2>
-                    {polls && <PollList polls={polls} />}
+                    {loading ? <div>Loading...</div> : <PollList polls={polls} />}
                 </div>
                 <div className="grid-item">
                     <h5>General info</h5>

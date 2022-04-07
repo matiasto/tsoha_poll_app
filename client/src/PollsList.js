@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const PollList = ({ polls }) => {
-    console.log(typeof polls)
+    
     const handleDelete = poll_id => {
         const url = `/api/poll/${poll_id}`
         axios.delete(url).then((response) => {
@@ -22,7 +22,7 @@ const PollList = ({ polls }) => {
                         <p>{poll["description"]}</p>
                         <p>Created_at: {poll["created_at"]}</p>
                         <button onClick={() => handleDelete(poll["poll_id"])}>Delete</button>
-                        <Link className="react-link" to={`/poll/${poll["poll_id"]}`}>
+                        <Link className="react-link" to={`/poll/${poll["poll_id"]}`} state={{ meta: poll}}>
                             <button>Vote</button>
                         </Link>
                     </div>

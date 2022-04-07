@@ -1,36 +1,27 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import useAxios from "./useAxios";
 
 const Poll = () => {
-    const { poll_id } = useParams();
-    const [meta, setMeta] = useState(null);
-    const [credits, setCredits] = useState(0);
+    const location = useLocation();
+    const { meta } = location.state;
+    const [credits, setCredits] = useState(meta.credits);
     const [questions, setQuestions] = useState(null);
     const [votesArray, setVotesArray] = useState(null);
-    const [pending, setPending] = useState(true);
+    const { response, loading, error } = useAxios({url: `/api/poll/${meta.poll_id}`});
+    const [ready, setReady] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`/api/poll/${poll_id}`)
-            .then(response => {
-                const data = response.data
-                setInitialState(data);
-                setPending(false);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }, [poll_id]);
-
-    const setInitialState = data => {
-        setMeta(data["meta"]);
-        setQuestions(data["data"]);
-        setCredits(data["meta"]["credits"]);
-        const a = Array(data['data'].length).fill(0);
-        setVotesArray(a);
-    };
-
+        setReady(false);
+        if (!loading) {
+            setQuestions(response);
+            const a = Array(response.length).fill(0);
+            setVotesArray(a);
+            setReady(true);
+        }
+    }, [loading]);
+        
     const newSum = array => {
         const theNewSum = array.map(n => n ** 2).reduce((i, j) => i + j, 0);
         setCredits(meta['credits'] - theNewSum);
@@ -71,23 +62,21 @@ const Poll = () => {
 
     const submitAnswer = e => {
         e.preventDefault()
-        const url = `/api/poll/${poll_id}`
+        const url = `/api/poll/${meta.poll_id}`
         const data = bindAnswerToQuestionId();
         
-        setPending(true);
 
-        axios.post(url, data).then((response) => {
-            console.log(response);
-            setPending(false);
-            navigate("/");
-        }).catch((error) => {
-            console.log(error.response);
-        })
+        // axios.post(url, data).then((response) => {
+        //     console.log(response);
+        //     navigate("/");
+        // }).catch((error) => {
+        //     console.log(error.response);
+        // })
     };
 
     return (
         <div className="vote">
-            { pending ? (<div><h3>Loading...</h3></div>) : (
+            { ready ? (
                 <div className="voting_area">
                     <div className="poll_meta">
                         <h2>{meta['title']}</h2>
@@ -121,13 +110,13 @@ const Poll = () => {
                     </div>
                     <div className="submission">
                         <div className="submit_answer">
-                            { pending ? (
+                            { loading ? (
                                 <button disabled>Submit</button>
                             ) : (<button onClick={submitAnswer}>Submit</button>)}
                         </div>
                     </div>
                 </div>
-            )}
+            ) : (<div><h3>Loading...</h3></div>)}
         </div>
     );
 }
