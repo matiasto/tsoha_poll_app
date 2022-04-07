@@ -8,17 +8,19 @@ const Poll = () => {
     const [credits, setCredits] = useState(meta.credits);
     const [questions, setQuestions] = useState(null);
     const [votesArray, setVotesArray] = useState(null);
-    const { response, loading, error } = useAxios({url: `/api/poll/${meta.poll_id}`});
-    const [ready, setReady] = useState(false);
+    const { response, loading, error, fetchData } = useAxios({url: `/api/poll/${meta.poll_id}`});
+    const [pending, setPending] = useState(true);
+    const [pendingMsg, setPendingMsg] = useState("Loading...");
     const navigate = useNavigate();
 
     useEffect(() => {
-        setReady(false);
+        setPendingMsg("Loading...");
+        setPending(true);
         if (!loading) {
             setQuestions(response);
             const a = Array(response.length).fill(0);
             setVotesArray(a);
-            setReady(true);
+            setPending(false);
         }
     }, [loading]);
         
@@ -61,22 +63,22 @@ const Poll = () => {
     };
 
     const submitAnswer = e => {
-        e.preventDefault()
-        const url = `/api/poll/${meta.poll_id}`
+        e.preventDefault();
+        setPendingMsg("Submitting...");
+        setPending(true);
+        const url = `/api/poll/${meta.poll_id}`;
         const data = bindAnswerToQuestionId();
-        
-
-        // axios.post(url, data).then((response) => {
-        //     console.log(response);
-        //     navigate("/");
-        // }).catch((error) => {
-        //     console.log(error.response);
-        // })
+        fetchData({method: "post", url: url, data: data})
+        .then(response => {
+            setPending(false);
+            navigate("/");
+            // needs some error handling
+        });
     };
 
     return (
         <div className="vote">
-            { ready ? (
+            { pending ? (<div><h3>{pendingMsg}</h3></div>) : (
                 <div className="voting_area">
                     <div className="poll_meta">
                         <h2>{meta['title']}</h2>
@@ -116,7 +118,7 @@ const Poll = () => {
                         </div>
                     </div>
                 </div>
-            ) : (<div><h3>Loading...</h3></div>)}
+            )}
         </div>
     );
 }

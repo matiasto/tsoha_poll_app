@@ -20,6 +20,7 @@ const CreatePoll = () => {
     const [current, setCurrent] = useState(defaultQuestion);
     const [poll, setPoll] = useState([]);
     const [pending, setPending] = useState(false);
+    const { response, loading, error, fetchData } = useAxios({url: "/tmp"});
     const navigate = useNavigate();
 
     const setMetaData = (field, value) => {
@@ -45,18 +46,16 @@ const CreatePoll = () => {
     };
 
     const submitPoll = e => {
-        e.preventDefault()
-        const url = 'http://127.0.0.1:5000/api/polls'
-        const data = { meta, poll };
-        
         setPending(true);
-
-        axios.post(url, data).then((response) => {
+        e.preventDefault();
+        const url = "/api/polls";
+        const data = { meta, poll };
+        fetchData({method: "post", url: url, data: data})
+        .then(response => {
             console.log(response);
             setPending(false);
             navigate("/");
-        }).catch((error) => {
-            console.log(error.response);
+            // needs some error handling
         })
     };
    

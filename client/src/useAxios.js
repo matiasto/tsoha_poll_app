@@ -12,8 +12,7 @@ const useAxios = (axiosParams) => {
     const fetchData = async (params) => {
         try {
             const result = await axios.request(params);
-            console.log(result)
-            setResponse(JSON.parse(result.data))
+            setResponse(JSON.parse(result.data));
         } catch(error) {
             if (error.name === "AbortError") {
                 console.log("fetch aborted");
@@ -30,9 +29,8 @@ const useAxios = (axiosParams) => {
         axiosParams.signal = abort.signal;
         fetchData(axiosParams);
         return () => abort.abort();  
-    }, [axiosParams.url]);
-
-    return { response, loading, error };
+    }, [axiosParams.url, axiosParams.method, axiosParams.data]);
+    return { response, loading, error, fetchData };
 };
 
 export default useAxios;
