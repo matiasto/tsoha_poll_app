@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import axios from "axios";
+import useAxios from "./useAxios";
 
 const PollList = ({ polls }) => {
+    const { response, loading, error, fetchData } = useAxios({url: "/tmp"});
     
     const handleDelete = poll_id => {
-        const url = `/api/poll/${poll_id}`
-        axios.delete(url).then((response) => {
-            console.log(response);
+        fetchData({method: "delete", url: `/api/poll/${poll_id}`})
+        .then((response) => {
             window.location.reload(false);
         }).catch((error) => {
             console.log(error.response);
