@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const PollList = ({polls}) => {
+const PollList = ({ polls }) => {
+    console.log(typeof polls)
     const handleDelete = poll_id => {
         const url = `/api/poll/${poll_id}`
         axios.delete(url).then((response) => {

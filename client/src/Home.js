@@ -1,19 +1,8 @@
-import { useEffect, useState } from "react";
-import axios from 'axios';
 import PollList from "./PollsList";
+import UseFetch from "./UseFetch";
 
-function Home() {
-    const [polls, setPolls] = useState(null);
-    useEffect(() => {
-        axios.get("/api/polls")
-            .then(response => {
-                const data = JSON.parse(response.data)
-                setPolls(data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }, []);
+const Home = () => {
+    const { data: polls, pending, error } = UseFetch("http://127.0.0.1:5000/api/polls")
 
     return (
         <div className="home">

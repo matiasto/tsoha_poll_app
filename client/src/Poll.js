@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-function Poll() {
+const Poll = () => {
     const { poll_id } = useParams();
     const [meta, setMeta] = useState(null);
     const [credits, setCredits] = useState(0);

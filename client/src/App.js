@@ -9,7 +9,7 @@ import Navigation from "./Navigation";
 import CreatePoll from "./Create";
 import Poll from "./Poll";
 
-function App() {
+const App = () => {
     return (
         <div className="app">
             <BrowserRouter>

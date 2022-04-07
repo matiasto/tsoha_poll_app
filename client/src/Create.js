@@ -14,7 +14,7 @@ const defaultQuestion = {
     description: ""
 };
 
-function CreatePoll() {
+const CreatePoll = () => {
     const [meta, setMeta] = useState(defaultMeta);
     const [current, setCurrent] = useState(defaultQuestion);
     const [poll, setPoll] = useState([]);
@@ -45,7 +45,7 @@ function CreatePoll() {
 
     const submitPoll = e => {
         e.preventDefault()
-        const url = '/api/polls'
+        const url = 'http://127.0.0.1:5000/api/polls'
         const data = { meta, poll };
         
         setPending(true);

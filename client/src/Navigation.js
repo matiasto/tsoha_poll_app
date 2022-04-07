@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Navigation() {
+const Navigation = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link to="/">Home</Link>
