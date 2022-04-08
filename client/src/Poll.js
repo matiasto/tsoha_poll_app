@@ -8,7 +8,7 @@ const Poll = () => {
     const [credits, setCredits] = useState(meta.credits);
     const [questions, setQuestions] = useState(null);
     const [votesArray, setVotesArray] = useState(null);
-    const { response, loading, error, fetchData } = useAxios({url: `/api/poll/${meta.poll_id}`});
+    const { response, loading, fetchData } = useAxios({url: `/api/poll/${meta.poll_id}`});
     const [pending, setPending] = useState(true);
     const [pendingMsg, setPendingMsg] = useState("Loading...");
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Poll = () => {
             setVotesArray(a);
             setPending(false);
         }
-    }, [loading]);
+    }, [response, loading]);
         
     const newSum = array => {
         const theNewSum = array.map(n => n ** 2).reduce((i, j) => i + j, 0);
@@ -59,6 +59,7 @@ const Poll = () => {
             obj.votes = votesArray[i];
             arr.push(obj);
         }
+        arr.push({credits: meta.credits})
         return arr;
     };
 
@@ -70,9 +71,13 @@ const Poll = () => {
         const data = bindAnswerToQuestionId();
         fetchData({method: "post", url: url, data: data})
         .then(response => {
+            console.log(response);
             setPending(false);
             navigate("/");
             // needs some error handling
+        })
+        .catch(error => {
+            console.log(error)
         });
     };
 

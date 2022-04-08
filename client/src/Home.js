@@ -2,7 +2,7 @@ import PollList from "./PollsList";
 import useAxios from "./useAxios";
 
 const Home = () => {
-    const { response: polls, loading, error } = useAxios({url: "/api/polls"})
+    const { response: polls, loading } = useAxios({url: "/api/polls"})
 
     return (
         <div className="home">

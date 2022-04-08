@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAxios from "./useAxios";
 
@@ -20,7 +19,7 @@ const CreatePoll = () => {
     const [current, setCurrent] = useState(defaultQuestion);
     const [poll, setPoll] = useState([]);
     const [pending, setPending] = useState(false);
-    const { response, loading, error, fetchData } = useAxios({url: "/tmp"});
+    const { error, fetchData } = useAxios({url: "/tmp"});
     const navigate = useNavigate();
 
     const setMetaData = (field, value) => {
@@ -46,8 +45,8 @@ const CreatePoll = () => {
     };
 
     const submitPoll = e => {
-        setPending(true);
         e.preventDefault();
+        setPending(true);
         const url = "/api/polls";
         const data = { meta, poll };
         fetchData({method: "post", url: url, data: data})
@@ -55,7 +54,9 @@ const CreatePoll = () => {
             console.log(response);
             setPending(false);
             navigate("/");
-            // needs some error handling
+        })
+        .catch(errror => {
+            console.log(error);
         })
     };
    

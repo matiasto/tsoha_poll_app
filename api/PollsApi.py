@@ -22,7 +22,7 @@ class PollsApi(Resource):
         meta = request.json['meta']
         poll_title = meta["poll_title"]
         poll_description = meta["poll_description"]
-        poll_credits = meta["credits_per_voter"]
+        poll_credits = int(meta["credits_per_voter"])
         if len(poll_title) > 100 or poll_title == "":
             return {
                 "status": 403,
