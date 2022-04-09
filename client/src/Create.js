@@ -19,7 +19,7 @@ const CreatePoll = () => {
     const [current, setCurrent] = useState(defaultQuestion);
     const [poll, setPoll] = useState([]);
     const [pending, setPending] = useState(false);
-    const { error, fetchData } = useAxios({url: "/tmp"});
+    const { error, fetchData } = useAxios({url: ""});
     const navigate = useNavigate();
 
     const setMetaData = (field, value) => {
