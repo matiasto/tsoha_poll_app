@@ -22,3 +22,41 @@ class Validate:
             return {"message": "succesful signup"}, 200
         else:
             return message, 403
+
+    @staticmethod
+    def votes(credits: int, data: list):
+        check = 0
+        for item in data:
+            question_id = item["id"]
+            if not isinstance(question_id, int):
+                return {"message": "forbidden question id!"}, 403
+            votes = item["votes"]
+            check += votes ** 2
+        if check > credits ** 2:
+            return {"message": "credits overflow!"}, 403
+        return {"message": "valid!"}, 200
+
+    @staticmethod
+    def meta(poll_title: str, poll_description: str, poll_credits: int):
+        message = None
+        if len(poll_title) > 100 or poll_title == "":
+            message = {"message": "Error in title!"}
+        elif len(poll_description) > 300:
+            message = {"message": "Description is too long!"}
+        elif poll_credits > 250 or poll_credits < 0:
+            message = {"message": "Error in credits!"}
+        if not message:
+            return {"message": "valid"}, 200
+        else:
+            return message, 403
+
+    @staticmethod
+    def statements(statements: list):
+        for i, statement in enumerate(statements, start=1):
+            header = statement["header"]
+            description = statement["description"]
+            if len(header) > 100 or header == "":
+                return {"message": f"Error in {i}.statement header!"}, 403
+            if len(description) > 300:
+                return {"message": f"Error in {i}.statement description!"}, 403
+        return {"message": "valid"}, 200

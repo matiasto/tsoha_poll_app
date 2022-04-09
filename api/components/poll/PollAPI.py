@@ -3,7 +3,8 @@ from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required
 from api.db.db import db
-from .to_json_format import FormatterTool
+from ...services.to_json_format import FormatterTool
+from ...services.validate import Validate
 
 
 class PollAPI(Resource):
@@ -20,20 +21,14 @@ class PollAPI(Resource):
     def post(self, poll_id):
         data = json.loads(request.data)
         credits = data.pop()["credits"]
-        check = 0
-        for item in data:
-            question_id = item["id"]
-            if not isinstance(question_id, int):
-                return {"message": "forbidden question id!"}, 403
-            votes = item["votes"]
-            check += votes ** 2
-        if check > credits ** 2:
-            return {"message": "credits overflow!"}, 403
+        message, code = Validate.votes(credits, data)
+        if code == 403:
+            return message, code
         for item in data:
             question_id = item["id"]
             votes = item["votes"]
-            sql = """INSERT INTO answers (question_id, votes, sent_at) 
-                            VALUES (:question_id, :votes, NOW())"""
+            sql = """INSERT INTO answers (question_id, votes) 
+                            VALUES (:question_id, :votes)"""
             result = db.session.execute(sql, {"question_id": question_id,
                                               "votes": votes})
         db.session.commit()
