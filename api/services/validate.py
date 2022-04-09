@@ -1,7 +1,27 @@
-from email import message
+from werkzeug.security import check_password_hash
 import re
 
 class Validate:
+    @staticmethod
+    def signin(email: str, password: str):
+        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        if not re.fullmatch(regex, email) or len(email) > 50:
+            return {"Message": "invalid email!"}, 403
+        elif len(password) > 50:
+            return {"message": "invalid password"}, 403
+
+
+    @staticmethod
+    def credentials(user, password):
+        if not user:
+            return {"message": "invalid email"}, 403
+        else:
+            hash_value = user.password
+            if check_password_hash(hash_value, password):
+                return {"message": "successfully signed in"}, 200
+            else:
+                return {"message": "invalid password"}, 403
+
     @staticmethod
     def signup(email: str, password: str, firstname: str, lastname: str):
         message = None
