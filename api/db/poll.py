@@ -4,14 +4,14 @@ from .db import db
 
 class Poll:
     @staticmethod
-    def get_statements():
+    def get():
         sql = FetchQuery.get_sql_query("get_poll_statements")
         result = db.session.execute(sql)
         return result.fetchall()
 
 
     @staticmethod
-    def post_votes(data: list):
+    def post(data: list):
         sql = FetchQuery.get_sql_query("post_user_votes")
         for item in data:
             question_id = item["id"]
@@ -21,7 +21,7 @@ class Poll:
         db.session.commit()
 
     @staticmethod
-    def delete_poll(poll_id):
+    def delete(poll_id):
         sql = FetchQuery.get_sql_query("delete_poll")
         db.session.execute(sql, {"id": poll_id})
         db.session.commit()

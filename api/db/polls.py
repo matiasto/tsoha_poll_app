@@ -4,14 +4,14 @@ from .db import db
 
 class Polls:
     @staticmethod
-    def get_polls():
+    def get():
         sql = FetchQuery.get_sql_query("get_poll_meta")
         result = db.session.execute(sql)
         return result.fetchall()
 
 
     @staticmethod
-    def post_poll(poll_title: str, poll_description: str, poll_credits: str, statements: list):
+    def post(poll_title: str, poll_description: str, poll_credits: str, statements: list):
         sql = FetchQuery.get_sql_query("post_poll_meta")
         result = db.session.execute(
             sql, {"title": poll_title,
