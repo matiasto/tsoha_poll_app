@@ -1,0 +1,8 @@
+{
+    "get_poll_meta": "SELECT poll_id, title, description, credits, created_at FROM polls WHERE visible=1 ORDER BY poll_id DESC",
+    "post_poll_meta": "INSERT INTO polls (title, description, credits) VALUES (:title, :description, :credits) RETURNING poll_id",
+    "delete_poll": "UPDATE polls SET visible=0 WHERE poll_id=:id",
+    "get_poll_statements": "SELECT question_id, header, description FROM questions WHERE poll_id=:id",
+    "post_poll_statement": "INSERT INTO questions (poll_id, header, description) VALUES (:poll_id, :header, :description)",
+    "post_user_votes": "INSERT INTO answers (question_id, votes) VALUES (:question_id, :votes)"
+}
