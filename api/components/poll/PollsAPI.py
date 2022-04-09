@@ -10,7 +10,7 @@ class PollsAPI(Resource):
     method_decorators = [jwt_required()]
 
     def get(self):
-        polls = Polls.get_polls()
+        polls = Polls.get()
         headers = ["poll_id", "title", "description", "credits", "created_at"]
         data = FormatterTool.to_json(headers, polls, to_json=True)
         return jsonify(data)
@@ -28,5 +28,5 @@ class PollsAPI(Resource):
         message, code = Validate.statements(statements)
         if code == 403:
             return message, code
-        Polls.post_poll(poll_title, poll_description, poll_credits, statements)
+        Polls.post(poll_title, poll_description, poll_credits, statements)
         return {"message": "Poll submitted!"}, 200

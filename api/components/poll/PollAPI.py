@@ -11,7 +11,7 @@ class PollAPI(Resource):
     method_decorators = [jwt_required()]
 
     def get(self, poll_id):
-        questions = Poll.get_statements()
+        questions = Poll.get()
         headers = ["question_id", "header", "description"]
         data = FormatterTool.to_json(headers, questions)
         return json.dumps(data)
@@ -22,9 +22,9 @@ class PollAPI(Resource):
         message, code = Validate.votes(credits, data)
         if code == 403:
             return message, code
-        Poll.post_votes(data)
+        Poll.post(data)
         return {"message": "Succesfully submitted"}
 
     def delete(self, poll_id):
-        Poll.delete_poll(poll_id)
+        Poll.delete(poll_id)
         return {"message": "Succesfully deleted"}
