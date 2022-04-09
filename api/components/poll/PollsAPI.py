@@ -27,7 +27,7 @@ class PollsAPI(Resource):
         poll_description = meta["poll_description"]
         poll_credits = int(meta["credits_per_voter"])
         if len(poll_title) > 100 or poll_title == "":
-            return {"Message": "Error in title!"}, 403
+            return {"message": "Error in title!"}, 403
         if len(poll_description) > 300:
             return {"message": "Description is too long!"}, 403
         if poll_credits > 250 or poll_credits < 0:
@@ -49,10 +49,10 @@ class PollsAPI(Resource):
             description = question["description"]
             if len(header) > 100 or header == "":
                 bail_out(poll_id)
-                return {"Message": "Error in statement header!"}, 403
+                return {"message": "Error in statement header!"}, 403
             if len(description) > 300:
                 bail_out(poll_id)
-                return {"Message": "Error in statement description!"}, 403
+                return {"message": "Error in statement description!"}, 403
             if description == "":
                 description = None
 
