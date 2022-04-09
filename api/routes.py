@@ -1,6 +1,7 @@
 from app import app
-from .auth.LoginAPI import LoginAPI
-from .auth.LogoutAPI import LogoutAPI
+from .auth.SignInAPI import SignInAPI
+from .auth.SignOutAPI import SignOutAPI
+from .auth.SignUpAPI import SignUpAPI
 from .components.ProfileAPI import ProfileAPI
 from .components.PollAPI import PollAPI
 from .components.PollsAPI import PollsAPI
@@ -38,8 +39,9 @@ def refresh_expiring_jwts(response):
 
 api = Api(app)
 
-api.add_resource(LoginAPI, "/api/login")
-api.add_resource(LogoutAPI, "/api/logout")
+api.add_resource(SignInAPI, "/api/signin")
+api.add_resource(SignOutAPI, "/api/signout")
+api.add_resource(SignUpAPI, "/api/signup")
 api.add_resource(PollAPI, "/api/poll/<int:poll_id>")
 api.add_resource(PollsAPI, "/api/polls")
 api.add_resource(ProfileAPI, "/api/profile")
