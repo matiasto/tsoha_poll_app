@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 from .db import db
 
 
-class User:
+class Auth:
     @staticmethod
     def get(email: str, password: str):
         sql = FetchQuery.get_sql_query("get_user")

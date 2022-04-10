@@ -4,20 +4,20 @@ from .db import db
 
 class Poll:
     @staticmethod
-    def get():
+    def get(poll_id):
         sql = FetchQuery.get_sql_query("get_poll_statements")
-        result = db.session.execute(sql)
+        result = db.session.execute(sql, {"id": poll_id})
         return result.fetchall()
 
-
     @staticmethod
-    def post(data: list):
+    def post(user_id, data: list):
         sql = FetchQuery.get_sql_query("post_user_votes")
         for item in data:
-            question_id = item["id"]
+            statement_id = item["id"]
             votes = item["votes"]
-            result = db.session.execute(sql, {"question_id": question_id,
-                                              "votes": votes})
+            db.session.execute(sql, {"statement_id": statement_id,
+                                     "user_id": user_id,
+                                     "votes": votes})
         db.session.commit()
 
     @staticmethod

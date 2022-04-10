@@ -9,12 +9,12 @@ class Polls:
         result = db.session.execute(sql)
         return result.fetchall()
 
-
     @staticmethod
-    def post(poll_title: str, poll_description: str, poll_credits: str, statements: list):
+    def post(user_id: int, poll_title: str, poll_description: str, poll_credits: str, statements: list):
         sql = FetchQuery.get_sql_query("post_poll_meta")
         result = db.session.execute(
-            sql, {"title": poll_title,
+            sql, {"user_id": user_id,
+                  "title": poll_title,
                   "description": poll_description,
                   "credits": poll_credits}
         )
