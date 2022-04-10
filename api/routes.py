@@ -12,8 +12,6 @@ from flask_jwt_extended import (
     get_jwt_identity, get_jwt, set_access_cookies
 )
 from datetime import timedelta, datetime, timezone
-import json
-import os
 
 app.config["JWT_COOKIE_SECURE"] = False
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
@@ -50,11 +48,3 @@ api.add_resource(ProfileAPI, "/api/profile")
 @app.route("/")
 def serve():
     return send_from_directory(app.static_folder, "index.html")
-
-
-@app.route("/tmp")
-def test():
-    return {
-        "status": "ok"
-    }
-
