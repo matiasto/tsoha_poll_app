@@ -10,7 +10,7 @@ const SignIn = props => {
 
     const submitLogin = async function(e) {
         e.preventDefault();
-        const response = await fetchData({url:"/api/signin", method: "post"});
+        const response = await fetchData({url:"/api/signin", method: "post", data: loginForm});
         props.setToken(Cookies.get('csrf_access_token'));
     }
 
