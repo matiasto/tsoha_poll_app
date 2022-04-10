@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from ...services.to_json_format import FormatterTool
 from ...services.validate import Validate
 from ...db.polls import Polls
@@ -16,6 +16,8 @@ class PollsAPI(Resource):
         return jsonify(data)
 
     def post(self):
+        print("ok")
+        user_id = get_jwt_identity()
         meta = request.json['meta']
         poll_title = meta["poll_title"]
         poll_description = meta["poll_description"]
@@ -28,5 +30,6 @@ class PollsAPI(Resource):
         message, code = Validate.statements(statements)
         if code == 403:
             return message, code
-        Polls.post(poll_title, poll_description, poll_credits, statements)
+        Polls.post(user_id, poll_title, poll_description,
+                   poll_credits, statements)
         return {"message": "Poll submitted!"}, 200
