@@ -1,22 +1,30 @@
 import { useState } from "react";
-import useAxios from "./useAxios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
     const [signUpForm, setSignUpForm] = useState({ email: "", password: "", firstname: "", lastname: ""});
-    const [tmpOptions, setTmpOptions] = useState({url: ""});
-    const { fetchData } = useAxios(tmpOptions);
+    const [pending, setPending] = useState(true);
+    const [pendingMsg, setPendingMsg] = useState("Loading...");
     const navigate = useNavigate();
 
-    const submitSignUp = async function(e) {
+    const submitSignUp = async (e) => {
         e.preventDefault();
-        const options = {
-            method: "post",
-            url: "/api/signup",
-            data: signUpForm
+        try {
+            setPendingMsg("Submitting...");
+            setPending(true);
+            const config = {
+                method: "post",
+                url: "/api/signup",
+                data: signUpForm,
+            };
+            const result = await axios(config);
+        } catch(error) {
+            console.log(error);
+        } finally {
+            setPending(false);
+            navigate("/");
         }
-        const response = await fetchData(options);
-        navigate("/");
     }
 
     const handleChange = e => {

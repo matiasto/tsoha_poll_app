@@ -7,14 +7,13 @@ import React, { useState } from "react";
 import Home from "./Home";
 import Navigation from "./Navigation";
 import CreatePoll from "./Create";
-import Poll from "./Poll";
+import Vote from "./Vote";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Cookies from "js-cookie";
 
 const App = () => {
     const [token, setToken] = useState(Cookies.get("csrf_access_token"));
-    console.log(token);
 
     if (!token) {
         return (
@@ -34,7 +33,7 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="create" element={<CreatePoll />} />
-                    <Route path="poll/:poll_id" element={<Poll />} />
+                    <Route path="poll/:poll_id" element={<Vote />} />
                 </Routes>
             </BrowserRouter>
         </div>

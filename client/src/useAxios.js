@@ -9,44 +9,41 @@ const useAxios = (axiosParams) => {
     const [response, setResponse] = useState(undefined);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
+    const [shouldRefetch, refetch] = useState({});
 
-    const fetchData = async (params) => {
-        setLoading(true);
-        try {
-            const result = await axios.request(params);
-            setResponse(JSON.parse(result.data));
-        } catch(error) {
+    const getCookie = name => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    useEffect(() => {
+        const abortCont = new AbortController();
+        axiosParams.signal = abortCont.signal;
+        axiosParams.credentials =  "same-origin";
+        axiosParams.headers = {
+            "X-CSRF-TOKEN": getCookie("csrf_access_token")
+        };
+        axios(axiosParams)
+        .then(response => {
+            setResponse(JSON.parse(response.data));
+            setError(null);
+        })
+        .catch(error => {
             if (error.name === "AbortError") {
                 console.log("fetch aborted");
             } else {
-                setError(error);
-                setResponse(undefined);
+                setError(error.message);
             }
-        } finally {
+        })
+        .finally(() => {
             setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        setLoading(true);
-        if (axiosParams.url !== ""){
-            const abort = new AbortController();
-            axiosParams.signal = abort.signal;
-            if (axiosParams.url !== "/api/login") {
-                axiosParams.credentials =  'same-origin';
-                axiosParams.headers = {
-                      'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
-                }
-            }
-            fetchData(axiosParams);
-            return () => abort.abort(); 
-        } else {
-            setResponse(undefined);
-            setError("");
-            setLoading(false);
-        }
-    }, [axiosParams.url, axiosParams.method]);
-    return { response, loading, error, fetchData };
-};
+        })
+        return () => abortCont.abort();
+    }, [axiosParams.url, shouldRefetch])
+    console.log(response, error);
+    return { response, error, loading, refetch};
+}
 
 export default useAxios;
+    

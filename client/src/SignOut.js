@@ -1,15 +1,29 @@
 import { useState } from "react";
-import useAxios from "./useAxios";
+import axios from "axios";
 
 
 const SignOut = props => {
     const [options, setOptions] = useState({url: ""});
-    const { fetchData } = useAxios(options);
+    const [pending, setPending] = useState(true);
+    const [pendingMsg, setPendingMsg] = useState("Loading...");
 
-    const submitSignOut = async function(e) {
+    const submitSignOut = async (e) => {
         e.preventDefault();
-        const response = await fetchData({url:"/api/signout", method: "post"});
-        props.setToken(undefined);
+        try {
+            setPendingMsg("Signing out...");
+            setPending(true);
+            const config = {
+                method: "post",
+                url: "/api/signout",
+            };
+            const result = await axios(config);
+            props.setToken(undefined);
+        } catch(error) {
+            console.log(error);
+        } finally {
+            setPending(false);
+        }
+        
     }
 
     return(

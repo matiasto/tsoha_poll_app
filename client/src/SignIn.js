@@ -1,22 +1,35 @@
-import { useEffect, useState } from "react";
-import useAxios from "./useAxios";
+import { useState } from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const SignIn = props => {
-    const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-    const [options, setOptions] = useState({url: ""});
-    const { fetchData } = useAxios(options);
+    const [signInForm, setSignInForm] = useState({ email: "", password: "" });
+    const [pending, setPending] = useState(true);
+    const [pendingMsg, setPendingMsg] = useState("Loading...");
 
-    const submitLogin = async function(e) {
+    const submitLogin = async (e) => {
         e.preventDefault();
-        const response = await fetchData({url:"/api/signin", method: "post", data: loginForm});
-        props.setToken(Cookies.get('csrf_access_token'));
+        try {
+            setPendingMsg("Signing in...");
+            setPending(true);
+            const config = {
+                method: "post",
+                url: "/api/signin",
+                data: signInForm,
+            };
+            const result = await axios(config);
+            props.setToken(Cookies.get('csrf_access_token'));
+        } catch(error) {
+            console.log(error);
+        } finally {
+            setPending(false);
+        }
     }
 
     const handleChange = e => {
         const { value, name } = e.target;
-        setLoginForm(old => ({
+        setSignInForm(old => ({
             ...old, [name]: value
         }))
     }
@@ -27,17 +40,17 @@ const SignIn = props => {
                 <form className="login">
                     <input 
                         type="email"
-                        text={loginForm.email}
+                        text={signInForm.email}
                         name="email"
                         placeholder="email"
-                        value={loginForm.email}
+                        value={signInForm.email}
                         onChange={handleChange} />
                     <input
                         type="password"
-                        text={loginForm.password}
+                        text={signInForm.password}
                         name="password"
                         placeholder="password"
-                        value={loginForm.password}
+                        value={signInForm.password}
                         onChange={handleChange} />
                     <button onClick={e => submitLogin(e)}>Login</button>
                     <Link to="signup">

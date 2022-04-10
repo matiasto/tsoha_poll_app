@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxios from "./useAxios";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const Poll = () => {
+const Vote = () => {
     const location = useLocation();
     const { meta } = location.state;
     const [credits, setCredits] = useState(meta.credits);
     const [questions, setQuestions] = useState(null);
     const [votesArray, setVotesArray] = useState(null);
-    const { response, loading, fetchData } = useAxios({url: `/api/poll/${meta.poll_id}`});
+    const { response, loading } = useAxios({url: `/api/poll/${meta.poll_id}`});
     const [pending, setPending] = useState(true);
     const [pendingMsg, setPendingMsg] = useState("Loading...");
     const navigate = useNavigate();
@@ -63,22 +65,33 @@ const Poll = () => {
         return arr;
     };
 
-    const submitAnswer = e => {
+    const getCookie = name => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    const submitAnswer = async (e) => {
         e.preventDefault();
-        setPendingMsg("Submitting...");
-        setPending(true);
-        const url = `/api/poll/${meta.poll_id}`;
-        const data = bindAnswerToQuestionId();
-        fetchData({method: "post", url: url, data: data})
-        .then(response => {
-            console.log(response);
+        try {
+            setPendingMsg("Submitting...");
+            setPending(true);
+            const config = {
+                method: "post",
+                url: `/api/poll/${meta.poll_id}`,
+                data: bindAnswerToQuestionId(),
+                credentials: 'same-origin',
+                headers: {
+                  "X-CSRF-TOKEN": getCookie("csrf_access_token")
+                }
+            };
+            const result = await axios(config);
+        } catch(error) {
+            console.log(error);
+        } finally {
             setPending(false);
             navigate("/");
-            // needs some error handling
-        })
-        .catch(error => {
-            console.log(error)
-        });
+        }
     };
 
     return (
@@ -128,4 +141,4 @@ const Poll = () => {
     );
 }
 
-export default Poll;
+export default Vote;
