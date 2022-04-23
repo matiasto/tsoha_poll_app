@@ -1,4 +1,4 @@
-from ..services.fetch_queries import FetchQuery
+from ..services.fetch_query import FetchQuery
 from .db import db
 
 
