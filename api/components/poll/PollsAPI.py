@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from ...services.to_json_format import FormatterTool
+from ...services.formatter_tool import FormatterTool
 from ...services.validate import Validate
 from ...db.polls import Polls
 
