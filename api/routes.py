@@ -2,9 +2,12 @@ from app import app
 from .components.auth.SignInAPI import SignInAPI
 from .components.auth.SignOutAPI import SignOutAPI
 from .components.auth.SignUpAPI import SignUpAPI
-from .components.user.ProfileAPI import ProfileAPI
+from .components.user.UserPollsAPI import UserPollsAPI
+from .components.user.UserVotesAPI import UserVotesAPI
 from .components.poll.PollAPI import PollAPI
 from .components.poll.PollsAPI import PollsAPI
+from .components.poll.ReactivateAPI import ReactivateAPI
+from .components.poll.RateAPI import RateAPI
 from flask_restful import Api
 from flask import send_from_directory
 from flask_jwt_extended import (
@@ -44,7 +47,10 @@ api.add_resource(SignOutAPI, "/api/signout")
 api.add_resource(SignUpAPI, "/api/signup")
 api.add_resource(PollAPI, "/api/poll/<int:poll_id>")
 api.add_resource(PollsAPI, "/api/polls")
-api.add_resource(ProfileAPI, "/api/profile")
+api.add_resource(ReactivateAPI, "/api/poll/reactivate/<int:poll_id>")
+api.add_resource(RateAPI, "/api/poll/rate/<int:poll_id>")
+api.add_resource(UserPollsAPI, "/api/user/polls")
+api.add_resource(UserVotesAPI, "/api/user/votes")
 
 
 @app.route("/")
