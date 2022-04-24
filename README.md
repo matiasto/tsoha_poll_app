@@ -14,6 +14,7 @@ Neliöllinen äänestäminen on äänestämismenetelmä, jossa osanottaja/ääne
 
 >"Quadratic voting” is a new method of polling proposed by Glen Weyl, a political economist now at Microsoft Research. Whereas a normal poll might ask you whether you agree or disagree with a set of issues, one conducted with quadratic voting gives poll-takers a budget of “voice credits”, which they can spend to agree or disagree with each issue. Poll-takers can cast multiple votes in favour of or opposed to each issue, but each vote costs more credits than the last. - [The Economist](https://www.economist.com/interactive/2021/12/18/quadratic-voting)
 
+---
 
 ### Toiminta
 
