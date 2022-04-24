@@ -1,3 +1,4 @@
+from os import getenv
 from app import app
 from .components.auth.SignInAPI import SignInAPI
 from .components.auth.SignOutAPI import SignOutAPI
@@ -19,7 +20,7 @@ from datetime import timedelta, datetime, timezone
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["JWT_COOKIE_SECURE"] = False
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
+app.config["JWT_SECRET_KEY"] = getenv("SECRET_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
