@@ -1,10 +1,20 @@
 {
-    "get_poll_meta": "SELECT poll_id, title, description, credits, created_at FROM polls WHERE visible=1 ORDER BY poll_id DESC",
+    "get_poll_meta": "SELECT p.poll_id, p.title, p.description, p.credits, p.created_at, AVG(r.rating)::float AS rating, (SELECT COUNT(DISTINCT a.user_id) FROM statements s LEFT JOIN answers a ON s.statement_id = a.statement_id WHERE s.poll_id = p.poll_id) AS votes FROM polls p LEFT JOIN ratings r ON p.poll_id = r.poll_id WHERE visible=1 GROUP BY p.poll_id ORDER BY votes DESC, rating DESC, poll_id DESC",
     "post_poll_meta": "INSERT INTO polls (user_id, title, description, credits) VALUES (:user_id, :title, :description, :credits) RETURNING poll_id",
-    "delete_poll": "UPDATE polls SET visible=0 WHERE poll_id=:id",
+    "deactivate_poll": "UPDATE polls SET visible=0 WHERE poll_id=:id",
+    "reactivate_poll": "UPDATE polls SET visible=1 WHERE poll_id=:id",
     "get_poll_statements": "SELECT statement_id, header, description FROM statements WHERE poll_id=:id",
     "post_poll_statement": "INSERT INTO statements (poll_id, header, description) VALUES (:poll_id, :header, :description)",
     "post_user_votes": "INSERT INTO answers (statement_id, user_id, votes) VALUES (:statement_id, :user_id, :votes)",
     "register_user": "INSERT INTO users (email, password, firstname, lastname) VALUES (:email, :password, :firstname, :lastname)",
-    "get_user": "SELECT user_id, password FROM users WHERE email=:email"
+    "get_user": "SELECT user_id, password FROM users WHERE email=:email",
+    "validate_poll_ownership": "SELECT CASE count(*) WHEN 1 THEN true ELSE false END FROM polls WHERE user_id = :user_id and poll_id = :poll_id",
+    "validate_user_rating": "SELECT CASE count(*) WHEN 1 THEN false ELSE true END FROM ratings WHERE user_id = :user_id and poll_id = :poll_id",
+    "get_user_polls": "SELECT p.poll_id, p.visible, p.title, p.description, p.created_at, AVG(r.rating)::float AS rating, (SELECT COUNT(DISTINCT a.user_id) FROM statements s LEFT JOIN answers a ON s.statement_id = a.statement_id WHERE s.poll_id = p.poll_id) AS votes FROM polls p LEFT JOIN ratings r ON p.poll_id = r.poll_id WHERE p.user_id=:id GROUP BY p.poll_id ORDER BY votes DESC, rating DESC, poll_id DESC",
+    "get_user_votes": "SELECT DISTINCT p.poll_id, p.visible, p.title, a.sent_at FROM polls p LEFT JOIN statements s ON p.poll_id = s.poll_id LEFT JOIN answers a ON s.statement_id = a.statement_id WHERE a.user_id = :id",
+    "get_user_ratings": "SELECT * FROM ratings WHERE user_id = :id",
+    "get_user_votes_detailed": "SELECT s.statement_id , s.header, s.description, a.votes FROM statements s LEFT JOIN answers a ON s.statement_id = a.statement_id WHERE s.poll_id = :poll_id AND a.user_id = :user_id",
+    "get_number_of_voters": "SELECT COUNT(DISTINCT a.user_id) FROM statements s LEFT JOIN answers a ON s.statement_id = a.statement_id WHERE s.poll_id = :id",
+    "get_poll_votes_stats": "SELECT AVG(a.votes), PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY a.votes) FROM statements s LEFT JOIN answers a ON s.statement_id = a.statement_id WHERE s.poll_id = 2 GROUP BY s.statement_id",
+    "rate_poll": "INSERT INTO ratings (poll_id, user_id, rating, comment) VALUES (:poll_id, :user_id, :rating, :comment)"
 }
