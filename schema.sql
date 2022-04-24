@@ -24,6 +24,7 @@ create table polls (
 	credits integer not null,
 	visible integer default 1,
 	created_at timestamp default now(),
+	check (credits > 0 and credits < 251),
 	foreign key (user_id) references users (user_id)
 );
 
@@ -49,7 +50,8 @@ create table ratings (
 	poll_id integer not null,
 	user_id integer not null,
 	rating integer not null,
-	check (rating > 0 and rating < 6),
+	comment text,
+	check (rating > -1 and rating < 6),
 	primary key (poll_id, user_id),
 	foreign key (poll_id) references polls (poll_id),
 	foreign key (user_id) references users (user_id)
@@ -62,11 +64,4 @@ create table feedback (
 	primary key (poll_id, user_id),
 	foreign key (poll_id) references polls (poll_id),
 	foreign key (user_id) references users (user_id)
-);
-
-create table visitors (
-	poll_id integer not null,
-	time timestamp default now(),
-	primary key (poll_id),
-	foreign key (poll_id) references polls (poll_id)
 );
