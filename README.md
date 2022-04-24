@@ -1,6 +1,12 @@
-# Mielipidekysely Sovellus
+# [Mielipidekysely Sovellus](https://tsoha-poll-app.herokuapp.com/)
 ---
 
+Sisältö
+- [Johdanto](#johdanto)
+- [Toiminta](#toiminta)
+- [Testaaminen](#testaaminen)
+- [Huomioita Sovelluksen Käyttämisestä](#huomioita-sovelluksen-kayttamisesta)
+- [Alkuperäinen vaatimusmäärittely:](#alkuperainen-vaatimusmaarittely)
 
 ### Johdanto
 
@@ -13,8 +19,46 @@ Neliöllinen äänestäminen on äänestämismenetelmä, jossa osanottaja/ääne
 
 Sovelluksella voi toteuttaa mielipidekyselyitä. Kyselyt perustuvat neliölliseen äänestämiseen (Quadratic Voting). Käyttäjät voivat luoda omia kyselyitä mihin muut käyttäjät voivat vastata. Kyselyt koostuvat yhdestä tai useammasta kysymyksestä. Sovellus on pohjimmiltaan mielipidesovellus, mutta sen on tarkoitus esitellä käyttäjälle vaihtoehtoinen tapa perinteiselle mielipidemittaukselle.
 
+---
 
-### Sovelluksen ominaisuuksia ovat:
+### Testaaminen
+
+Sovellukseen pääsee [tästä linkistä](https://tsoha-poll-app.herokuapp.com/).
+
+---
+
+### Huomioita Sovelluksen Kayttamisesta
+
+Kirjautumissivu ei tässä vaiheessa anna mitään indikaatiota kirjautumisen epäonnistumisesta. Onnistunut kirjautuminen uudelleenohjaa automaattisesti pääsivulle.
+
+Uutta kyselyä luodessa on tärkeä lisätä viimeinenkin kysymys "add statement" napista ennen kyselyn julkaisemista "submit" napilla. Muulloin viimeinen kysymys jää pois julkaisusta.
+
+Yleisestikin aplikaatiosta puuttuu paljon käyttäjälle näkyviä viestejä/vihjeitä tapahtumista. Hyvä uutinen on, että aplikaatiossa on hyvä runko näiden toteuttamiseen, mutta tähän versioon ne eivät ehtineet.
+
+---
+
+### Projektin tilanne
+
+Tässä versiossa olevat toiminnot:
+- Käyttäjä voi
+    - luoda tunnuksen.
+    - kirjautua sisään ja ulos.
+    - luoda oman kyselyn.
+    - vastata kyselyihin.
+    - piilottaa oman kyselyn muilta käyttäjiltä.
+    - arvioida muiden kyselyitä.
+    - nähdä kyselyyn vastanneiden määrän.
+    - nähdä muiden käyttäjien antaman yleisarvosanan.
+    - saada perus tietoa neliöllisestä äänestämisestä.
+
+Seuraavan versiot toivotut ominaisuudet:
+- Tyyliä ja käytettävyyttä.
+- Statistiikkaa kyselyiden tuloksista.
+- Palautelaatikko.
+
+---
+
+### Alkuperainen Vaatimusmaarittely:
 
 - Käyttäjä voi luoda uuden tunnuksen sekä kirjautua sisään ja ulos.
 - Etusivulla käyttäjä näkee aktiiviset kyselyt joista näkyy kyselyn otsikko sekä vastausten määrä.
@@ -24,24 +68,3 @@ Sovelluksella voi toteuttaa mielipidekyselyitä. Kyselyt perustuvat neliöllisee
 - Käyttäjä pystyy poistamaan luomansa kyselyn.
 - Suosituimmat kyselyt ja vastaajat ovat tilastoitu käyttäjien nähtäväksi.
 - Sovelluseen kuuluu infosivu jossa lyhyesti esitellään kyslyssä käytetty menetelmä (Quadratic voting).
-
-### Testaaminen
-
-Sovellukseen pääsee [tästä linkistä](https://tsoha-poll-app.herokuapp.com/). Käyttöohjeet sovellukseen löytyy ensimmäiseltä sivulta.
-
-### Projektin tilanne
-
-#### Tässä versiossa olevat toiminnot:
-- Käyttäjä voi 
-    - luoda oman kyselyn
-    - vastata kyselyihin
-    - poistaa kyselyn (minkä tahansa)
-    - saada perus tietoa neliöllisestä äänestämisestä
-
-#### Seuraavan versiot toivotut ominaisuudet:
-- USER GROUPS!
-    - Käyttäjä kirjautuminen
-    - Käyttäjä voi hallinoida omia kyselyitä
-    - Admin voi hallinnoida kaikkia käyttäjiä
-- Statistiikkaa kyselyiden tuloksista.
-- Palautelaatikko.
