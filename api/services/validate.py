@@ -1,5 +1,6 @@
 from werkzeug.security import check_password_hash
 import re
+from ..db.user import User
 
 class Validate:
     @staticmethod
@@ -44,7 +45,10 @@ class Validate:
             return message, 403
 
     @staticmethod
-    def votes(credits: int, data: list):
+    def votes(user_id, poll_id, credits: int, data: list):
+        voted_polls = list(filter(lambda x: x[0] == poll_id, User.votes(user_id)))
+        if voted_polls:
+            return {"message": "can not vote multiple times!"}, 403
         check = 0
         for item in data:
             question_id = item["id"]
@@ -80,3 +84,20 @@ class Validate:
             if len(description) > 300:
                 return {"message": f"Error in {i}.statement description!"}, 403
         return {"message": "valid"}, 200
+
+    @staticmethod
+    def ownership(user_id, poll_id):
+        if not User.ownership(user_id, poll_id):
+            return {"message": "no ownership!"}, 403
+        return {"message": "valid"}, 200
+
+    @staticmethod
+    def rating(user_id, poll_id, rating, comment):
+        if not User.rating(user_id, poll_id):
+            return {"message": "existing rating"}, 403
+        if rating > 5 or rating < 0:
+            return {"message": "invalid rating"}, 403
+        if len(comment) > 300:
+            return {"message": "Description is too long!"}, 403
+        return {"message": "valid"}, 200
+        
