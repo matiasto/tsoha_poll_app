@@ -18,7 +18,7 @@ const SignIn = props => {
         const cred = getCookie("csrf_access_token");
         const config = {
             method: "get",
-            url: "/api/profile",
+            url: "/api/user/polls",
             credentials: 'same-origin',
             headers: {
               "X-CSRF-TOKEN": cred
@@ -41,7 +41,7 @@ const SignIn = props => {
                 data: signInForm,
             };
             const result = await axios(config);
-            props.setToken(Cookies.get('csrf_access_token'));
+            props.setSignedIn(true);
         } catch(error) {
             console.log(error);
         } finally {

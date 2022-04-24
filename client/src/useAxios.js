@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Cookies from "js-cookie";
 
 axios.defaults.baseURL = "http://127.0.0.1:5000";
 
@@ -41,7 +40,6 @@ const useAxios = (axiosParams) => {
         })
         return () => abortCont.abort();
     }, [axiosParams.url, shouldRefetch])
-    console.log(response, error);
     return { response, error, loading, refetch};
 }
 

@@ -17,7 +17,7 @@ const SignOut = props => {
                 url: "/api/signout",
             };
             const result = await axios(config);
-            props.setSignedIn(undefined);
+            props.setSignedIn(false);
         } catch(error) {
             console.log(error);
         } finally {

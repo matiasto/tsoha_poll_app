@@ -27,7 +27,7 @@ const App = () => {
         const cred = getCookie("csrf_access_token");
         const config = {
             method: "get",
-            url: "/api/profile",
+            url: "/api/user/polls",
             credentials: 'same-origin',
             headers: {
               "X-CSRF-TOKEN": cred
