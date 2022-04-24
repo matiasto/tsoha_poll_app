@@ -21,7 +21,22 @@ class Poll:
         db.session.commit()
 
     @staticmethod
-    def delete(poll_id):
-        sql = FetchQuery.get_sql_query("delete_poll")
+    def deactivate(poll_id):
+        sql = FetchQuery.get_sql_query("deactivate_poll")
         db.session.execute(sql, {"id": poll_id})
+        db.session.commit()
+
+    @staticmethod
+    def reactivate(poll_id):
+        sql = FetchQuery.get_sql_query("reactivate_poll")
+        db.session.execute(sql, {"id": poll_id})
+        db.session.commit()
+
+    @staticmethod
+    def rate(user_id, poll_id, rating, comment):
+        sql = FetchQuery.get_sql_query("rate_poll")
+        db.session.execute(sql, {"poll_id": poll_id,
+                                 "user_id": user_id,
+                                 "rating": rating,
+                                 "comment": comment})
         db.session.commit()
