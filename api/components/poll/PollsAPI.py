@@ -11,14 +11,13 @@ class PollsAPI(Resource):
 
     def get(self):
         polls = Polls.get()
-        headers = ["poll_id", "title", "description", "credits", "created_at"]
+        headers = ["poll_id", "title", "description", "credits", "created_at", "rating", "votes"]
         data = FormatterTool.to_json(headers, polls, to_json=True)
         return jsonify(data)
 
     def post(self):
-        print("ok")
         user_id = get_jwt_identity()
-        meta = request.json['meta']
+        meta = request.json["meta"]
         poll_title = meta["poll_title"]
         poll_description = meta["poll_description"]
         poll_credits = int(meta["credits_per_voter"])
