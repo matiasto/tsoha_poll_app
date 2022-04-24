@@ -8,6 +8,8 @@ Sisältö
 - [Huomioita Sovelluksen Käyttämisestä](#huomioita-sovelluksen-kayttamisesta)
 - [Alkuperäinen vaatimusmäärittely:](#alkuperainen-vaatimusmaarittely)
 
+---
+
 ### Johdanto
 
 Neliöllinen äänestäminen on äänestämismenetelmä, jossa osanottaja/äänestäjä ilmaisee mieltymyksensä suunnan lisäksi voimakkuutta. Menetelmässä annetaan äänestäjälle kasa "ääniä" joita äänestä voi jakaa eri vaihtoehtojen kesken. Äänten antaminen jollekkin vaihtoehdolle menee neliöllisesti eli ensimmäinen ääni on 1^2 = 1, toinen ääni on 2^2 = 4, kolmas 3^2 = 9 jne. Äänten kallistuminen toisaalta estää äänien kasaantumista, mutta myös kannustaa kompromisseihin. Menetelmä on hyvin mielenkiintoinen ja asiaan uppoutumisen voi aloittaa tästä [Wikipedia: Quadratic voting](https://en.wikipedia.org/wiki/Quadratic_voting).
