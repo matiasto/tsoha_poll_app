@@ -2,7 +2,7 @@ from app import app
 from .components.auth.SignInAPI import SignInAPI
 from .components.auth.SignOutAPI import SignOutAPI
 from .components.auth.SignUpAPI import SignUpAPI
-from .components.poll.ProfileAPI import ProfileAPI
+from .components.user.ProfileAPI import ProfileAPI
 from .components.poll.PollAPI import PollAPI
 from .components.poll.PollsAPI import PollsAPI
 from flask_restful import Api
@@ -13,13 +13,16 @@ from flask_jwt_extended import (
 )
 from datetime import timedelta, datetime, timezone
 
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["JWT_COOKIE_SECURE"] = False
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
-
+@jwt.invalid_token_loader
+def invalid_token(token):
+    return {"message", "invalid token"}
 
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -32,7 +35,6 @@ def refresh_expiring_jwts(response):
             set_access_cookies(response, access_token)
         return response
     except (RuntimeError, KeyError):
-        # Case where there is not a valid JWT. Just return the original respone
         return response
 
 api = Api(app)
@@ -47,4 +49,8 @@ api.add_resource(ProfileAPI, "/api/profile")
 
 @app.route("/")
 def serve():
+    return send_from_directory(app.static_folder, "index.html")
+
+@app.errorhandler(404)
+def not_found(e):
     return send_from_directory(app.static_folder, "index.html")

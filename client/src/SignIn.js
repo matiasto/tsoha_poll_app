@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -7,6 +7,28 @@ const SignIn = props => {
     const [signInForm, setSignInForm] = useState({ email: "", password: "" });
     const [pending, setPending] = useState(true);
     const [pendingMsg, setPendingMsg] = useState("Loading...");
+
+    const getCookie = name => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    useEffect(() => {
+        const cred = getCookie("csrf_access_token");
+        const config = {
+            method: "get",
+            url: "/api/profile",
+            credentials: 'same-origin',
+            headers: {
+              "X-CSRF-TOKEN": cred
+            }
+        };
+        axios(config)
+        .then(response => {
+            props.setSignedIn(true)
+        })
+    }, [])
 
     const submitLogin = async (e) => {
         e.preventDefault();
