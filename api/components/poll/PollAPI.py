@@ -20,12 +20,16 @@ class PollAPI(Resource):
         user_id = get_jwt_identity()
         data = json.loads(request.data)
         credits = data.pop()["credits"]
-        message, code = Validate.votes(credits, data)
+        message, code = Validate.votes(user_id, poll_id, credits, data)
         if code == 403:
             return message, code
         Poll.post(user_id, data)
-        return {"message": "Succesfully submitted"}
+        return {"message": "Succesfully submitted"}, 200
 
     def delete(self, poll_id):
-        Poll.delete(poll_id)
-        return {"message": "Succesfully deleted"}
+        user_id = get_jwt_identity()
+        message, code = Validate.ownership(user_id, poll_id)
+        if code == 403:
+            return message, code
+        Poll.deactivate(poll_id)
+        return {"message": "Succesfully deleted"}, 200
