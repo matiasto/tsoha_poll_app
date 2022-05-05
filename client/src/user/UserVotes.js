@@ -7,7 +7,11 @@ const UserVotes = () => {
     const [visible, setVisible] = useState({});
 
     const handleShow = id => {
-        setVisible({...visible, [id]: true});
+        if (id in visible) {
+            setVisible({id: false});
+        } else {
+            setVisible({...visible, [id]: true});
+        }
     }
 
     if (loading) {

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 
 const defaultMeta = {
@@ -19,12 +18,12 @@ const CreatePoll = () => {
     const [meta, setMeta] = useState(defaultMeta);
     const [current, setCurrent] = useState(defaultQuestion);
     const [poll, setPoll] = useState([]);
-    const [pending, setPending] = useState(false);
-    const [pendingMsg, setPendingMsg] = useState("Loading...");
+    const [message, setMessage] = useState("");
+    const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
 
     const setMetaData = (field, value) => {
-        setMeta({...meta, [field]: value});
+        setMeta({ ...meta, [field]: value });
     };
 
     const pushQuestionToPoll = () => {
@@ -37,7 +36,7 @@ const CreatePoll = () => {
     };
 
     const updateCurrent = (field, value) => {
-        setCurrent({...current, [field]: value});
+        setCurrent({ ...current, [field]: value });
     };
 
     const editQuestion = index => {
@@ -54,33 +53,33 @@ const CreatePoll = () => {
     const submitPoll = async (e) => {
         e.preventDefault();
         try {
-            setPendingMsg("Submitting...");
-            setPending(true);
+            setMessage("Submitting...");
+            setShowMessage(true);
             const config = {
                 method: "post",
                 url: "/api/polls",
                 data: { meta, poll },
                 credentials: 'same-origin',
                 headers: {
-                  "X-CSRF-TOKEN": getCookie("csrf_access_token")
+                    "X-CSRF-TOKEN": getCookie("csrf_access_token")
                 }
             };
             const result = await axios(config);
-        } catch(error) {
-            console.log(error);
-        } finally {
-            setPending(false);
+            setShowMessage(false);
             navigate("/");
+        } catch (error) {
+            setMessage(error.response.data.message);
+            setShowMessage(true);
         }
     };
-   
+
 
     return (
         <div className="create_poll">
             <h1>Create a New Poll</h1>
             <div className="meta">
                 <div className="poll_title">
-                    <h4>Poll Title</h4>
+                    <h4>Poll Title (required)</h4>
                     <input
                         type="text"
                         id="poll_title"
@@ -155,9 +154,10 @@ const CreatePoll = () => {
                         <button disabled>Missing Header</button>
                     )}
                 </div>
+                {showMessage && (<p>{message}</p>)}
                 <div className="submit_poll">
                     {poll.length > 0 ? (
-                        pending ? (<button disabled>Submitting...</button>) : (<button onClick={submitPoll}>Create poll</button>)
+                        <button onClick={submitPoll}>Create poll</button>
                     ) : (
                         <button disabled>Add atleast one before submitting</button>
                     )}

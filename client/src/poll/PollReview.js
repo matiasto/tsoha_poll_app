@@ -5,6 +5,8 @@ import axios from 'axios';
 const PollReview = props => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
+    const [message, setMessage] = useState("");
+    const [showMessage, setShowMessage] = useState(false);
 
     const handleRating = rate => {
         setRating(rate / 20)
@@ -25,14 +27,14 @@ const PollReview = props => {
                 data: { rating, comment },
                 credentials: 'same-origin',
                 headers: {
-                  "X-CSRF-TOKEN": getCookie("csrf_access_token")
+                    "X-CSRF-TOKEN": getCookie("csrf_access_token")
                 }
             };
             const result = await axios(config);
-        } catch(error) {
-            console.log(error);
-        } finally {
-            props.setVisible({...props.visible, [props.poll["poll_id"]]: false})
+            props.setVisible({ ...props.visible, [props.poll["poll_id"]]: false })
+        } catch (error) {
+            setMessage(error.response.data.message);
+            setShowMessage(true);
         }
     }
 
@@ -47,6 +49,7 @@ const PollReview = props => {
                 onChange={e => setComment(e.target.value)}
             />
             <Rating allowHover={false} onClick={handleRating} ratingValue={rating} />
+            {showMessage && (<p>{message}</p>)}
             <button onClick={e => submitRating(e)}>Rate</button>
         </div>
     )

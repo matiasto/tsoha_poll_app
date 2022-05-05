@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxios from "../components/useAxios";
 import axios from "axios";
-import Cookies from "js-cookie";
+
 
 const Vote = () => {
     const location = useLocation();
     const { meta } = location.state;
+    const { response, loading } = useAxios({ url: `/api/poll/${meta.poll_id}` });
     const [credits, setCredits] = useState(meta.credits);
     const [questions, setQuestions] = useState(null);
     const [votesArray, setVotesArray] = useState(null);
-    const { response, loading } = useAxios({url: `/api/poll/${meta.poll_id}`});
     const [pending, setPending] = useState(true);
     const [pendingMsg, setPendingMsg] = useState("Loading...");
+    const [message, setMessage] = useState("");
+    const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,7 +27,7 @@ const Vote = () => {
             setPending(false);
         }
     }, [response, loading]);
-        
+
     const newSum = array => {
         const theNewSum = array.map(n => n ** 2).reduce((i, j) => i + j, 0);
         setCredits(meta['credits'] - theNewSum);
@@ -34,7 +36,7 @@ const Vote = () => {
     const castAVote = (index, direction) => {
         const shallowCopy = votesArray;
         direction ? (shallowCopy[index] = shallowCopy[index] + 1)
-                  : (shallowCopy[index] = shallowCopy[index] - 1);
+            : (shallowCopy[index] = shallowCopy[index] - 1);
         setVotesArray(shallowCopy);
         newSum(shallowCopy);
     };
@@ -61,7 +63,7 @@ const Vote = () => {
             obj.votes = votesArray[i];
             arr.push(obj);
         }
-        arr.push({credits: meta.credits})
+        arr.push({ credits: meta.credits })
         return arr;
     };
 
@@ -74,29 +76,29 @@ const Vote = () => {
     const submitAnswer = async (e) => {
         e.preventDefault();
         try {
-            setPendingMsg("Submitting...");
-            setPending(true);
+            setMessage("Submitting...");
+            setShowMessage(true);
             const config = {
                 method: "post",
                 url: `/api/poll/${meta.poll_id}`,
                 data: bindAnswerToQuestionId(),
                 credentials: 'same-origin',
                 headers: {
-                  "X-CSRF-TOKEN": getCookie("csrf_access_token")
+                    "X-CSRF-TOKEN": getCookie("csrf_access_token")
                 }
             };
             const result = await axios(config);
-        } catch(error) {
-            console.log(error);
-        } finally {
-            setPending(false);
+            setShowMessage(false);
             navigate("/");
+        } catch (error) {
+            setMessage(error.response.data.message);
+            setShowMessage(true);
         }
     };
 
     return (
         <div className="vote">
-            { pending ? (<div><h3>{pendingMsg}</h3></div>) : (
+            {pending ? (<div><h3>{pendingMsg}</h3></div>) : (
                 <div className="voting_area">
                     <div className="poll_meta">
                         <h2>{meta['title']}</h2>
@@ -122,15 +124,16 @@ const Vote = () => {
                                         {validate(votesArray[index], true) ? (
                                             <button className="vote_button" onClick={() => castAVote(index, true)}>Agree</button>
                                         ) : (<button className="vote_button" disabled>Not enough credits</button>)}
-                                        
+
                                     </div>
                                 </div>
                             )
                         })}
                     </div>
+                    {showMessage && (<p>{message}</p>)}
                     <div className="submission">
                         <div className="submit_answer">
-                            { loading ? (
+                            {loading ? (
                                 <button disabled>Submit</button>
                             ) : (<button onClick={submitAnswer}>Submit</button>)}
                         </div>

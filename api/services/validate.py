@@ -71,11 +71,11 @@ class Validate:
     def meta(poll_title: str, poll_description: str, poll_credits: int):
         message = None
         if len(poll_title) > 100 or poll_title == "":
-            message = {"message": "Error in title!"}
+            message = {"message": "Invalid title!"}
         elif len(poll_description) > 300:
             message = {"message": "Description is too long!"}
         elif poll_credits > 250 or poll_credits < 0:
-            message = {"message": "Error in credits!"}
+            message = {"message": "Invalid credits!"}
         if not message:
             return {"message": "valid"}, 200
         else:
