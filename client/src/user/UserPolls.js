@@ -1,4 +1,4 @@
-import useAxios from "./useAxios";
+import useAxios from "../components/useAxios";
 import axios from "axios";
 import UserPollDetails from "./UserPollDetails";
 

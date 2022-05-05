@@ -4,14 +4,14 @@ import {
     Route,
 } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import Home from "./Home";
-import Navigation from "./Navigation";
-import CreatePoll from "./Create";
-import Vote from "./Vote";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import Profile from "./Profile";
 import axios from "axios";
+import Home from "./common/Home";
+import Navigation from "./common/Navigation";
+import CreatePoll from "./poll/Create";
+import Vote from "./poll/Vote";
+import SignIn from "./auth/SignIn";
+import SignUp from "./auth/SignUp";
+import Profile from "./user/Profile";
 
 const App = () => {
     const [signedIn, setSignedIn] = useState(false);

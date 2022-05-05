@@ -1,5 +1,5 @@
-import PollList from "./PollsList";
-import useAxios from "./useAxios";
+import PollList from "../poll/PollsList";
+import useAxios from "../components/useAxios";
 
 const Home = () => {
     const { response: polls, loading } = useAxios({url: "/api/polls"})

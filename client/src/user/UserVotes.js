@@ -1,5 +1,5 @@
-import useAxios from "./useAxios";
-import PollReview from "./PollReview";
+import useAxios from "../components/useAxios";
+import PollReview from "../poll/PollReview";
 import { useState } from "react";
 
 const UserVotes = () => {

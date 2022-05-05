@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import SignOut from "./SignOut";
+import SignOut from "../auth/SignOut";
 
 const Navigation = props => {
     return (

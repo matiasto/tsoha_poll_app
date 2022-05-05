@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import useAxios from "./useAxios";
+import useAxios from "../components/useAxios";
 import axios from "axios";
 import Cookies from "js-cookie";
 
