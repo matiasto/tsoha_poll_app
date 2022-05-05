@@ -13,7 +13,7 @@ create table users (
 	firstname text not null,
 	lastname text not null,
 	admin integer default 0,
-	unique (email, password)
+	unique (email)
 );
 
 create table polls (

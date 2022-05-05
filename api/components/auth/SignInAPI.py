@@ -8,7 +8,9 @@ class SignInAPI(Resource):
     def post(self):
         email = request.json["email"]
         password = request.json["password"]
-        Validate.signin(email, password)
+        message, code = Validate.signin(email, password)
+        if code == 403:
+            return message, code
         user = Auth.get(email, password)
         message, code = Validate.credentials(user, password)
         if code == 403:

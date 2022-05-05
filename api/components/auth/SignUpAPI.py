@@ -13,6 +13,10 @@ class SignUpAPI(Resource):
         message, code = Validate.signup(email, password, firstname, lastname)
         if code == 403:
             return message, code
+
+        user = Auth.get(email, password)
+        if user:
+            return {"message": "email address is not available"}, 403
         Auth.register(email, password, firstname, lastname)
         return {"message": "successful signup"}, 200
     

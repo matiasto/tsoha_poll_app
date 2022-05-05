@@ -3,15 +3,12 @@ import axios from "axios";
 
 
 const SignOut = props => {
-    const [options, setOptions] = useState({url: ""});
-    const [pending, setPending] = useState(true);
-    const [pendingMsg, setPendingMsg] = useState("Loading...");
+    const [text, setText] = useState("Logout");
 
     const submitSignOut = async (e) => {
         e.preventDefault();
         try {
-            setPendingMsg("Signing out...");
-            setPending(true);
+            setText("Signing out...")
             const config = {
                 method: "post",
                 url: "/api/signout",
@@ -19,16 +16,13 @@ const SignOut = props => {
             const result = await axios(config);
             props.setSignedIn(false);
         } catch(error) {
-            console.log(error);
-        } finally {
-            setPending(false);
+            setText("failed");
         }
-        
     }
 
     return(
         <button onClick={e => submitSignOut(e)}> 
-            Logout
+            {text}
         </button>
     )
 }

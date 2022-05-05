@@ -1,40 +1,18 @@
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const SignIn = props => {
     const [signInForm, setSignInForm] = useState({ email: "", password: "" });
-    const [pending, setPending] = useState(true);
-    const [pendingMsg, setPendingMsg] = useState("Loading...");
+    const [message, setMessage] = useState("");
+    const [showMessage, setShowMessage] = useState(false);
+    const navigate = useNavigate();
 
-    const getCookie = name => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-
-    useEffect(() => {
-        const cred = getCookie("csrf_access_token");
-        const config = {
-            method: "get",
-            url: "/api/user/polls",
-            credentials: 'same-origin',
-            headers: {
-              "X-CSRF-TOKEN": cred
-            }
-        };
-        axios(config)
-        .then(response => {
-            props.setSignedIn(true)
-        })
-    }, [])
-
-    const submitLogin = async (e) => {
+    const submitSignIn = async (e) => {
         e.preventDefault();
         try {
-            setPendingMsg("Signing in...");
-            setPending(true);
+            setMessage("Signing in...");
+            setShowMessage(true);
             const config = {
                 method: "post",
                 url: "/api/signin",
@@ -42,10 +20,11 @@ const SignIn = props => {
             };
             const result = await axios(config);
             props.setSignedIn(true);
-        } catch(error) {
-            console.log(error);
-        } finally {
-            setPending(false);
+            setShowMessage(false);
+            navigate("/");
+        } catch (error) {
+            setMessage(error.response.data.message);
+            setShowMessage(true);
         }
     }
 
@@ -59,30 +38,29 @@ const SignIn = props => {
     return (
         <div>
             <h1>Login</h1>
-                <form className="login">
-                    <input 
-                        type="email"
-                        text={signInForm.email}
-                        name="email"
-                        placeholder="email"
-                        value={signInForm.email}
-                        onChange={handleChange} />
-                    <input
-                        type="password"
-                        text={signInForm.password}
-                        name="password"
-                        placeholder="password"
-                        value={signInForm.password}
-                        onChange={handleChange} />
-                    <button onClick={e => submitLogin(e)}>Login</button>
-                    <Link to="signup">
-                        <button type="button">SignUp</button>
-                    </Link>
-                </form>
+            <form className="login">
+                <input
+                    type="email"
+                    text={signInForm.email}
+                    name="email"
+                    placeholder="email"
+                    value={signInForm.email}
+                    onChange={handleChange} />
+                <input
+                    type="password"
+                    text={signInForm.password}
+                    name="password"
+                    placeholder="password"
+                    value={signInForm.password}
+                    onChange={handleChange} />
+                <button onClick={e => submitSignIn(e)}>Login</button>
+                <Link to="signup">
+                    <button type="button">SignUp</button>
+                </Link>
+            </form>
+            {showMessage && (<p>{message}</p>)}
         </div>
     )
 }
 
 export default SignIn;
-
-    

@@ -7,38 +7,45 @@ class Validate:
     def signin(email: str, password: str):
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if not re.fullmatch(regex, email) or len(email) > 50:
-            return {"Message": "invalid email!"}, 403
+            return {"message": "Email in wrong format!"}, 403
         elif len(password) > 50:
-            return {"message": "invalid password"}, 403
+            return {"message": "Password in wrong format"}, 403
+        return {"message": "ok"}, 200
 
 
     @staticmethod
     def credentials(user, password):
         if not user:
-            return {"message": "invalid email"}, 403
+            return {"message": "Email does not exist"}, 403
         else:
             hash_value = user.password
             if check_password_hash(hash_value, password):
-                return {"message": "successfully signed in"}, 200
+                return {"message": "Successfully signed in"}, 200
             else:
-                return {"message": "invalid password"}, 403
+                return {"message": "Password incorrect"}, 403
 
     @staticmethod
     def signup(email: str, password: str, firstname: str, lastname: str):
         message = None
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if not re.fullmatch(regex, email) or len(email) > 50:
-            message = {"Message": "invalid email!"}
+            message = {"message": "invalid email!"}
         elif len(password) > 50:
-            message = {"message": "password too long"}
+            message = {"message": "password too long (max 50 characters)"}
+        elif len(password) < 4:
+            message = {"message": "password too short (atleast 4 characters)"}
+        elif len(firstname) < 2:
+            message = {"message": "firstname too short"}
+        elif not firstname.isalpha():
+            message = {"message": "invalid firstname (only alphabetic characters are allowed)"}
         elif len(firstname) > 20:
             message = {"message": "firstname too long"}
-        elif not firstname.isalpha():
-            message = {"message": "invalid firstname"}
+        elif len(lastname) < 2:
+            message = {"message": "lastname too short"}
+        elif not lastname.isalpha():
+            message = {"message": "invalid lastname (only alphabetic characters are allowed)"}
         elif len(lastname) > 20:
             message = {"message": "lastname too long"}
-        elif not lastname.isalpha():
-            message = {"message": "invalid lastname"}
         if not message:
             return {"message": "succesful signup"}, 200
         else:

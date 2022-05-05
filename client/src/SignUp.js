@@ -4,26 +4,26 @@ import axios from "axios";
 
 const SignUp = () => {
     const [signUpForm, setSignUpForm] = useState({ email: "", password: "", firstname: "", lastname: ""});
-    const [pending, setPending] = useState(true);
-    const [pendingMsg, setPendingMsg] = useState("Loading...");
+    const [message, setMessage] = useState("");
+    const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
 
     const submitSignUp = async (e) => {
         e.preventDefault();
         try {
-            setPendingMsg("Submitting...");
-            setPending(true);
+            setMessage("Signing up...");
+            setShowMessage(true);
             const config = {
                 method: "post",
                 url: "/api/signup",
                 data: signUpForm,
             };
             const result = await axios(config);
-        } catch(error) {
-            console.log(error);
-        } finally {
-            setPending(false);
+            setShowMessage(false);
             navigate("/");
+        } catch(error) {
+            setMessage(error.response.data.message);
+            setShowMessage(true);
         }
     }
 
@@ -68,6 +68,7 @@ const SignUp = () => {
                     onChange={handleChange} />
                 <button onClick={e => submitSignUp(e)}>SignUp</button>
             </form>
+            {showMessage && (<p>{message}</p>)}
         </div>
     )
 }

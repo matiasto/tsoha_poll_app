@@ -37,6 +37,7 @@ const App = () => {
         .then(response => {
             setSignedIn(true);
         })
+        .catch(error => {})
         .finally(() => {
             setLoading(false);
         })
@@ -52,14 +53,16 @@ const App = () => {
                         <Route path="create" element={<CreatePoll />} />
                         <Route path="poll/:poll_id" element={<Vote />} />
                         <Route path="profile" element={<Profile />} />
+                        <Route path="*" element={<Home />} />
                     </Routes>
                 </BrowserRouter>
             ) : (
                 loading ? <div>Loading...</div> : (
                     <BrowserRouter>
                         <Routes>
-                            <Route exact path="/" element={<SignIn setSignedIn={setSignedIn} />} />
-                            <Route exact path="signup" element={<SignUp />} />
+                            <Route path="/" element={<SignIn setSignedIn={setSignedIn} />} />
+                            <Route path="signup" element={<SignUp />} />
+                            <Route path="*" element={<SignIn />} />
                         </Routes>
                     </BrowserRouter>
                 )
