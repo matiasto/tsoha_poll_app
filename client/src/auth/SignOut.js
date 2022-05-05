@@ -15,13 +15,13 @@ const SignOut = props => {
             };
             const result = await axios(config);
             props.setSignedIn(false);
-        } catch(error) {
+        } catch (error) {
             setText("failed");
         }
     }
 
-    return(
-        <button onClick={e => submitSignOut(e)}> 
+    return (
+        <button onClick={e => submitSignOut(e)}>
             {text}
         </button>
     )

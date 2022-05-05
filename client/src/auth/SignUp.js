@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const SignUp = () => {
-    const [signUpForm, setSignUpForm] = useState({ email: "", password: "", firstname: "", lastname: ""});
+    const [signUpForm, setSignUpForm] = useState({ email: "", password: "", firstname: "", lastname: "" });
     const [message, setMessage] = useState("");
     const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ const SignUp = () => {
             const result = await axios(config);
             setShowMessage(false);
             navigate("/");
-        } catch(error) {
+        } catch (error) {
             setMessage(error.response.data.message);
             setShowMessage(true);
         }
@@ -38,7 +38,7 @@ const SignUp = () => {
         <div>
             <h1>SignUp</h1>
             <form className="signup">
-                <input 
+                <input
                     type="email"
                     text={signUpForm.email}
                     name="email"
