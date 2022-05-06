@@ -4,7 +4,7 @@ import UserPollDetails from "./UserPollDetails";
 
 const UserPolls = () => {
 
-    const { response: polls, error, loading } = useAxios({url: "/api/user/polls"});
+    const { response: polls, error, loading } = useAxios({ url: "/api/user/polls" });
 
     const getCookie = name => {
         const value = `; ${document.cookie}`;
@@ -19,16 +19,14 @@ const UserPolls = () => {
             url: `/api/poll/${id}`,
             credentials: 'same-origin',
             headers: {
-              "X-CSRF-TOKEN": getCookie("csrf_access_token")
+                "X-CSRF-TOKEN": getCookie("csrf_access_token")
             }
         };
         axios(config)
-        .then(response => {
-            window.location.reload(false);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+            .then(response => {
+                window.location.reload(false);
+            })
+            .catch(error => { })
     };
 
     const handleReactivate = (e, id) => {
@@ -38,16 +36,14 @@ const UserPolls = () => {
             url: `/api/poll/reactivate/${id}`,
             credentials: 'same-origin',
             headers: {
-              "X-CSRF-TOKEN": getCookie("csrf_access_token")
+                "X-CSRF-TOKEN": getCookie("csrf_access_token")
             }
         };
         axios(config)
-        .then(response => {
-            window.location.reload(false);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+            .then(response => {
+                window.location.reload(false);
+            })
+            .catch(error => { })
     };
 
     if (loading) {
@@ -62,7 +58,7 @@ const UserPolls = () => {
         <div className="profile">
             <h2>My active polls</h2>
             {polls.map(poll => {
-                return(
+                return (
                     <div className="poll_menu" key={poll["poll_id"]} >
                         {poll["visible"] === 1 ? (
                             <div>
@@ -71,13 +67,14 @@ const UserPolls = () => {
                                 <p>Created_at: {poll["created_at"]}</p>
                                 <UserPollDetails poll={poll} />
                                 <button className="deactivate_btn" onClick={e => handleDeactivate(e, poll["poll_id"])}>Deactivate</button>
-                            </div>): null}
+                            </div>) : null}
                     </div>
-                )}
+                )
+            }
             )}
             <h2>My inactive polls</h2>
             {polls.map(poll => {
-                return(
+                return (
                     <div className="poll_menu" key={poll["poll_id"]} >
                         {poll["visible"] === 0 ? (
                             <div>
@@ -88,7 +85,8 @@ const UserPolls = () => {
                                 <button className="reactivate_btn" onClick={e => handleReactivate(e, poll["poll_id"])}>Reactivate</button>
                             </div>) : null}
                     </div>
-                )}
+                )
+            }
             )}
         </div>
     )
