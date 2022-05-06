@@ -10,6 +10,7 @@ const PollList = ({ polls }) => {
                         <h2>{poll["title"]}</h2>
                         <p>{poll["description"]}</p>
                         <p>Created_at: {poll["created_at"]}</p>
+                        <p>Created_by: {poll["created_by"]}</p>
                         <p>votes: {poll["votes"]}</p>
                         <p>rating: {poll["rating"]}</p>
                         <Link className="react-link" to={`/poll/${poll["poll_id"]}`} state={{ meta: poll }}>
