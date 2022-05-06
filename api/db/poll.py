@@ -14,10 +14,10 @@ class Poll:
         sql = FetchQuery.get_sql_query("post_user_votes")
         for item in data:
             statement_id = item["id"]
-            votes = item["votes"]
+            vote = item["votes"]
             db.session.execute(sql, {"statement_id": statement_id,
                                      "user_id": user_id,
-                                     "votes": votes})
+                                     "vote": vote})
         db.session.commit()
 
     @staticmethod

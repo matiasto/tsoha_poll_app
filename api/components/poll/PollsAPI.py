@@ -11,7 +11,7 @@ class PollsAPI(Resource):
 
     def get(self):
         polls = Polls.get()
-        headers = ["poll_id", "title", "description", "credits", "created_at", "rating", "votes"]
+        headers = ["poll_id", "title", "description", "credits", "created_at", "created_by", "rating", "votes"]
         data = FormatterTool.to_json(headers, polls, to_json=True)
         return jsonify(data)
 

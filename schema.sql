@@ -1,7 +1,5 @@
-drop table if exists visitors cascade;
-drop table if exists feedback cascade;
 drop table if exists ratings cascade;
-drop table if exists answers cascade;
+drop table if exists votes cascade;
 drop table if exists statements cascade;
 drop table if exists polls cascade;
 drop table if exists users cascade;
@@ -36,10 +34,10 @@ create table statements (
 	foreign key (poll_id) references polls (poll_id)
 );
 
-create table answers (
+create table votes (
     statement_id integer not null,
 	user_id integer not null,
-    votes integer not null,
+    vote integer not null,
     sent_at timestamp default now(),
 	primary key (statement_id, user_id),
 	foreign key (statement_id) references statements (statement_id),
@@ -52,15 +50,6 @@ create table ratings (
 	rating integer not null,
 	comment text,
 	check (rating > -1 and rating < 6),
-	primary key (poll_id, user_id),
-	foreign key (poll_id) references polls (poll_id),
-	foreign key (user_id) references users (user_id)
-);
-
-create table feedback (
-	poll_id integer not null,
-	user_id integer not null,
-	comment text not null,
 	primary key (poll_id, user_id),
 	foreign key (poll_id) references polls (poll_id),
 	foreign key (user_id) references users (user_id)
