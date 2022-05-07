@@ -1,5 +1,5 @@
 {
-    "get_poll_meta": "SELECT p.poll_id, p.title, p.description, p.credits, p.created_at, u.firstname, AVG(r.rating)::float AS rating, COUNT(DISTINCT v.user_id) as turnout FROM users u RIGHT JOIN polls p on u.user_id = p.user_id LEFT JOIN ratings r on p.poll_id = r.poll_id LEFT JOIN statements s on p.poll_id = s.poll_id LEFT JOIN votes v on s.statement_id = v.statement_id WHERE p.visible = 1 GROUP BY p.poll_id, u.firstname ORDER BY turnout DESC, rating DESC, p.poll_id DESC",
+    "get_poll_meta": "SELECT p.poll_id, p.title, p.description, p.credits, p.created_at, u.firstname, AVG(r.rating)::float AS rating, COUNT(DISTINCT v.user_id) AS turnout FROM users u RIGHT JOIN polls p ON u.user_id = p.user_id LEFT JOIN statements s on p.poll_id = s.poll_id LEFT JOIN votes v on s.statement_id = v.statement_id LEFT JOIN ratings r on p.poll_id = r.poll_id WHERE p.visible = 1 and u.user_id != :id and p.poll_id not in (SELECT s2.poll_id FROM statements s2 left join votes v2 on s2.statement_id = v2.statement_id WHERE v2.user_id = :id) GROUP BY p.poll_id, u.firstname ORDER BY turnout DESC, rating DESC, p.poll_id DESC",
     "post_poll_meta": "INSERT INTO polls (user_id, title, description, credits) VALUES (:user_id, :title, :description, :credits) RETURNING poll_id",
     "deactivate_poll": "UPDATE polls SET visible=0 WHERE poll_id=:id",
     "reactivate_poll": "UPDATE polls SET visible=1 WHERE poll_id=:id",
@@ -10,10 +10,10 @@
     "get_user": "SELECT user_id, password FROM users WHERE email=:email",
     "validate_poll_ownership": "SELECT CASE count(*) WHEN 1 THEN true ELSE false END FROM polls WHERE user_id = :user_id and poll_id = :poll_id",
     "validate_user_rating": "SELECT CASE count(*) WHEN 1 THEN false ELSE true END FROM ratings WHERE user_id = :user_id and poll_id = :poll_id",
-    "get_user_polls": "SELECT p.poll_id, p.visible, p.title, p.description, p.created_at, AVG(r.rating)::float AS rating, COUNT(DISTINCT v.user_id) as turnout FROM polls p LEFT JOIN ratings r ON p.poll_id = r.poll_id LEFT JOIN statements s on p.poll_id = s.poll_id LEFT JOIN votes v on s.statement_id = v.statement_id WHERE p.user_id=:id GROUP BY p.poll_id ORDER BY turnout DESC, rating DESC, p.poll_id DESC",
-    "get_user_votes": "SELECT DISTINCT p.poll_id, p.visible, p.title, v.sent_at FROM polls p LEFT JOIN statements s ON p.poll_id = s.poll_id LEFT JOIN votes v ON s.statement_id = v.statement_id WHERE v.user_id = :id",
+    "get_user_polls": "SELECT p.poll_id, p.visible, p.title, p.description, p.created_at, AVG(r.rating)::float AS rating, COUNT(DISTINCT v.user_id) AS turnout FROM polls p LEFT JOIN ratings r ON p.poll_id = r.poll_id LEFT JOIN statements s on p.poll_id = s.poll_id LEFT JOIN votes v on s.statement_id = v.statement_id WHERE p.user_id=:id GROUP BY p.poll_id ORDER BY turnout DESC, rating DESC, p.poll_id DESC",
+    "get_user_votes": "SELECT DISTINCT p.poll_id, p.visible, p.title, v.sent_at, (CASE WHEN r.user_id = :id THEN 1 ELSE 0 END) AS existing_rating FROM polls p LEFT JOIN statements s ON p.poll_id = s.poll_id LEFT JOIN votes v ON s.statement_id = v.statement_id LEFT JOIN ratings r ON p.poll_id = r.poll_id WHERE v.user_id = :id",
     "get_user_ratings": "SELECT * FROM ratings WHERE user_id = :id",
     "get_user_votes_detailed": "SELECT s.statement_id, s.header, s.description, v.vote FROM statements s LEFT JOIN votes v ON s.statement_id = v.statement_id WHERE s.poll_id = :poll_id AND v.user_id = :user_id",
-    "get_poll_votes_stats": "SELECT AVG(v.vote), PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY v.vote) FROM statements s LEFT JOIN votes v ON s.statement_id = v.statement_id WHERE s.poll_id = 2 GROUP BY s.statement_id",
+    "get_statement_stats": "SELECT s.statement_id, s.header, s.description, AVG(v.vote)::float, PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY v.vote)::float FROM statements s LEFT JOIN votes v ON s.statement_id = v.statement_id WHERE s.poll_id = :id GROUP BY s.statement_id",
     "rate_poll": "INSERT INTO ratings (poll_id, user_id, rating, comment) VALUES (:poll_id, :user_id, :rating, :comment)"
 }

@@ -4,9 +4,9 @@ from .db import db
 
 class Polls:
     @staticmethod
-    def get():
+    def get(user_id):
         sql = FetchQuery.get_sql_query("get_poll_meta")
-        result = db.session.execute(sql)
+        result = db.session.execute(sql, {"id": user_id})
         return result.fetchall()
 
     @staticmethod

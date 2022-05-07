@@ -10,6 +10,6 @@ class UserVotesAPI(Resource):
     def get(self):
         user_id = get_jwt_identity()
         polls = User.votes(user_id)
-        headers = ["poll_id", "visible", "title", "sent_at"]
+        headers = ["poll_id", "visible", "title", "sent_at", "existing_rating"]
         data = FormatterTool.to_json(headers, polls, to_json=True)
         return jsonify(data)

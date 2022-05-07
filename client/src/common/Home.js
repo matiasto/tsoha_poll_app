@@ -11,7 +11,7 @@ const Home = () => {
             </div>
             <div className="grid-container">
                 <div className="grid-item">
-                    <h2>Active polls:</h2>
+                    <h2>Available polls:</h2>
                     {loading ? <div>Loading...</div> : <PollList polls={polls} />}
                 </div>
                 <div className="grid-item">

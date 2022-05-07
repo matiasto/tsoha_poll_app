@@ -10,7 +10,6 @@ create table users (
 	password text not null,
 	firstname text not null,
 	lastname text not null,
-	admin integer default 0,
 	unique (email)
 );
 

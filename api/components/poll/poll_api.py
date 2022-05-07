@@ -11,9 +11,9 @@ class PollAPI(Resource):
     method_decorators = [jwt_required()]
 
     def get(self, poll_id):
-        questions = Poll.get(poll_id)
+        statements = Poll.get(poll_id)
         headers = ["question_id", "header", "description"]
-        data = FormatterTool.to_json(headers, questions)
+        data = FormatterTool.to_json(headers, statements)
         return json.dumps(data)
 
     def post(self, poll_id):

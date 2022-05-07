@@ -105,13 +105,13 @@ const Vote = () => {
                         <p>{meta['description']}</p>
                         <p>Total Credits: {meta['credits']}</p>
                     </div>
-                    <div className="poll-questions">
+                    <div className="poll_statements">
                         {questions.map((question, index) => {
                             return (
-                                <div className="question" key={index}>
+                                <div className="statement" key={index}>
                                     <div className="header">
-                                        <h2>{question['header']}</h2>
-                                        <p>{question['description']}</p>
+                                        <h2>{question["header"]}</h2>
+                                        <p>{question["description"]}</p>
                                     </div>
                                     <div className="vote_info">
                                         <label className="live_credits">Credits left: {credits}</label>

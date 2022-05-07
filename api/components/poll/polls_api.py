@@ -10,7 +10,8 @@ class PollsAPI(Resource):
     method_decorators = [jwt_required()]
 
     def get(self):
-        polls = Polls.get()
+        user_id = get_jwt_identity()
+        polls = Polls.get(user_id)
         headers = ["poll_id", "title", "description", "credits", "created_at", "created_by", "rating", "votes"]
         data = FormatterTool.to_json(headers, polls, to_json=True)
         return jsonify(data)

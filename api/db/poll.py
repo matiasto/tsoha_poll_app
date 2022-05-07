@@ -1,3 +1,4 @@
+from asyncore import poll
 from ..services.fetch_query import FetchQuery
 from .db import db
 
@@ -19,6 +20,12 @@ class Poll:
                                      "user_id": user_id,
                                      "vote": vote})
         db.session.commit()
+
+    @staticmethod
+    def details(poll_id):
+        sql = FetchQuery.get_sql_query("get_statement_stats")
+        result = db.session.execute(sql, {"id": poll_id})
+        return result.fetchall()
 
     @staticmethod
     def deactivate(poll_id):

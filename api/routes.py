@@ -7,6 +7,7 @@ from .components.user.user_polls_api import UserPollsAPI
 from .components.user.user_votes_api import UserVotesAPI
 from .components.poll.poll_api import PollAPI
 from .components.poll.polls_api import PollsAPI
+from .components.poll.details_api import DetailsAPI
 from .components.poll.reactivate_api import ReactivateAPI
 from .components.poll.rate_api import RateAPI
 from flask_restful import Api
@@ -48,6 +49,7 @@ api.add_resource(SignOutAPI, "/api/signout")
 api.add_resource(SignUpAPI, "/api/signup")
 api.add_resource(PollAPI, "/api/poll/<int:poll_id>")
 api.add_resource(PollsAPI, "/api/polls")
+api.add_resource(DetailsAPI, "/api/poll/details/<int:poll_id>")
 api.add_resource(ReactivateAPI, "/api/poll/reactivate/<int:poll_id>")
 api.add_resource(RateAPI, "/api/poll/rate/<int:poll_id>")
 api.add_resource(UserPollsAPI, "/api/user/polls")
