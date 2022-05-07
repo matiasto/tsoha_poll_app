@@ -5,6 +5,7 @@ from .components.auth.sign_out_api import SignOutAPI
 from .components.auth.sign_up_api import SignUpAPI
 from .components.user.user_polls_api import UserPollsAPI
 from .components.user.user_votes_api import UserVotesAPI
+from .components.user.user_details_api import UserDetailsAPI
 from .components.poll.poll_api import PollAPI
 from .components.poll.polls_api import PollsAPI
 from .components.poll.details_api import DetailsAPI
@@ -54,6 +55,7 @@ api.add_resource(ReactivateAPI, "/api/poll/reactivate/<int:poll_id>")
 api.add_resource(RateAPI, "/api/poll/rate/<int:poll_id>")
 api.add_resource(UserPollsAPI, "/api/user/polls")
 api.add_resource(UserVotesAPI, "/api/user/votes")
+api.add_resource(UserDetailsAPI, "/api/user/details/<int:poll_id>")
 
 
 @app.route("/")

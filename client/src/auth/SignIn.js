@@ -18,7 +18,7 @@ const SignIn = props => {
                 url: "/api/signin",
                 data: signInForm,
             };
-            const result = await axios(config);
+            await axios(config);
             props.setSignedIn(true);
             setShowMessage(false);
             navigate("/");

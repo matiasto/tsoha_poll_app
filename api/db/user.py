@@ -16,6 +16,13 @@ class User:
         return result.fetchall()
 
     @staticmethod
+    def details(user_id, poll_id):
+        sql = FetchQuery.get_sql_query("get_user_votes_detailed")
+        result = db.session.execute(sql, {"user_id": user_id,
+                                          "poll_id": poll_id})
+        return result.fetchall()
+
+    @staticmethod
     def ownership(user_id, poll_id):
         sql = FetchQuery.get_sql_query("validate_poll_ownership")
         result = db.session.execute(sql, {"user_id": user_id,

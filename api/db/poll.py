@@ -24,7 +24,7 @@ class Poll:
     @staticmethod
     def details(poll_id):
         sql = FetchQuery.get_sql_query("get_statement_stats")
-        result = db.session.execute(sql, {"id": poll_id})
+        result = db.session.execute(sql, {"poll_id": poll_id})
         return result.fetchall()
 
     @staticmethod

@@ -18,7 +18,7 @@ const SignUp = () => {
                 url: "/api/signup",
                 data: signUpForm,
             };
-            const result = await axios(config);
+            await axios(config);
             setShowMessage(false);
             navigate("/");
         } catch (error) {

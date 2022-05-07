@@ -9,8 +9,11 @@ const UserPolls = () => {
     const [visible, setVisible] = useState({});
 
     const handleShow = id => {
-        if (id in visible) {
-            setVisible({ id: false });
+        if (!(id in visible)) {
+            setVisible({ ...visible, [id]: false });
+        } 
+        if (visible[id]) {
+            setVisible({ ...visible, [id]: false });
         } else {
             setVisible({ ...visible, [id]: true });
         }
@@ -72,12 +75,12 @@ const UserPolls = () => {
                     <div className="poll_menu" key={poll["poll_id"]} >
                         {poll["visible"] === 1 ? (
                             <div>
-                                <h4>{poll["title"]}</h4>
+                                <h3>{poll["title"]}</h3>
                                 <p>{poll["description"]}</p>
                                 <p>Created_at: {poll["created_at"]}</p>
+                                {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
                                 <button className="deactivate_btn" onClick={e => handleDeactivate(e, poll["poll_id"])}>Deactivate</button>
                                 <button className="details_btn" onClick={e => handleShow(poll["poll_id"])}>Details</button>
-                                {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
                             </div>) : null}
                     </div>
                 )
@@ -89,12 +92,12 @@ const UserPolls = () => {
                     <div className="poll_menu" key={poll["poll_id"]} >
                         {poll["visible"] === 0 ? (
                             <div>
-                                <h4>{poll["title"]}</h4>
+                                <h3>{poll["title"]}</h3>
                                 <p>{poll["description"]}</p>
                                 <p>Created_at: {poll["created_at"]}</p>
+                                {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
                                 <button className="reactivate_btn" onClick={e => handleReactivate(e, poll["poll_id"])}>Reactivate</button>
                                 <button className="details_btn" onClick={e => handleShow(poll["poll_id"])}>Details</button>
-                                {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
                             </div>) : null}
                     </div>
                 )

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // axios.defaults.baseURL = "http://127.0.0.1:5000"; dev settings
 
-const useAxios = (axiosParams) => {
+const useAxios = axiosParams => {
     const [response, setResponse] = useState(undefined);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);

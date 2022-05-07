@@ -64,7 +64,7 @@ const CreatePoll = () => {
                     "X-CSRF-TOKEN": getCookie("csrf_access_token")
                 }
             };
-            const result = await axios(config);
+            await axios(config);
             setShowMessage(false);
             navigate("/");
         } catch (error) {

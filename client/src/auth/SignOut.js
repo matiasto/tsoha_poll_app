@@ -13,7 +13,7 @@ const SignOut = props => {
                 method: "post",
                 url: "/api/signout",
             };
-            const result = await axios(config);
+            await axios(config);
             props.setSignedIn(false);
         } catch (error) {
             setText("failed");

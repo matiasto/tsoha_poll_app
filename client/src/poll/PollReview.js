@@ -30,8 +30,8 @@ const PollReview = props => {
                     "X-CSRF-TOKEN": getCookie("csrf_access_token")
                 }
             };
-            const result = await axios(config);
-            props.setVisible({ ...props.visible, [props.poll["poll_id"]]: false })
+            await axios(config);
+            props.setVisible({ ...props.visible, [props.poll["poll_id"]]: false });
         } catch (error) {
             setMessage(error.response.data.message);
             setShowMessage(true);
@@ -50,7 +50,7 @@ const PollReview = props => {
             />
             <Rating allowHover={false} onClick={handleRating} ratingValue={rating} />
             {showMessage && (<p>{message}</p>)}
-            <button onClick={e => submitRating(e)}>Rate</button>
+            <button onClick={e => submitRating(e)}>Submit</button>
         </div>
     )
 }

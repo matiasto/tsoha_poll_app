@@ -1,9 +1,9 @@
 import useAxios from "../components/useAxios";
 
-const UserPollDetails = props => {
+const UserVoteDetails = props => {
 
     const meta = props.poll;
-    const { response: details, loading } = useAxios({url: `/api/poll/details/${meta["poll_id"]}`})
+    const { response: details, loading } = useAxios({url: `/api/user/details/${meta["poll_id"]}`})
 
     return (
         <div className="poll_details">
@@ -20,6 +20,7 @@ const UserPollDetails = props => {
                                     <div className="header">
                                         <h5>{detail["header"]}</h5>
                                         <p>{detail["description"]}</p>
+                                        <p>My vote: {detail["vote"]}</p>
                                         <label className="avg_votes">Average Votes: {detail["average"]}</label>
                                         <label className="median_votes">Median Votes: {detail["median"]}</label>
                                     </div>
@@ -34,4 +35,4 @@ const UserPollDetails = props => {
 }
 
 
-export default UserPollDetails;
+export default UserVoteDetails;
