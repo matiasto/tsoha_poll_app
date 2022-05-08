@@ -1,5 +1,10 @@
 import useAxios from "../components/useAxios";
 
+
+/**
+ * Retrieves and shows additional information on polls.
+ * @param {meta data on poll on object format} props 
+ */
 const UserPollDetails = props => {
 
     const meta = props.poll;

@@ -3,13 +3,15 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useAxios from "../components/useAxios";
 import axios from "axios";
 
-
+/**
+ * Vote on polls
+ */
 const Vote = () => {
     const location = useLocation();
     const { meta } = location.state;
     const { response, loading } = useAxios({ url: `/api/poll/${meta.poll_id}` });
     const [credits, setCredits] = useState(meta.credits);
-    const [questions, setQuestions] = useState(null);
+    const [statements, setStatement] = useState(null);
     const [votesArray, setVotesArray] = useState(null);
     const [pending, setPending] = useState(true);
     const [pendingMsg, setPendingMsg] = useState("Loading...");
@@ -17,22 +19,35 @@ const Vote = () => {
     const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
 
+    /**
+     * Hook for setting up the inital state.
+     */
     useEffect(() => {
         setPendingMsg("Loading...");
         setPending(true);
         if (!loading) {
-            setQuestions(response);
+            setStatement(response);
             const a = Array(response.length).fill(0);
             setVotesArray(a);
             setPending(false);
         }
     }, [response, loading]);
 
+    /**
+     * Calculates the new quadratic total for votes array
+     * @param {the vote array} array 
+     */
     const newSum = array => {
         const theNewSum = array.map(n => n ** 2).reduce((i, j) => i + j, 0);
         setCredits(meta['credits'] - theNewSum);
     }
 
+    /**
+     * Cast vote method, updates votes array by incementing on booleans direaction
+     * and calculates new sum
+     * @param {int} index 
+     * @param {boolean} direction 
+     */
     const castAVote = (index, direction) => {
         const shallowCopy = votesArray;
         direction ? (shallowCopy[index] = shallowCopy[index] + 1)
@@ -41,6 +56,13 @@ const Vote = () => {
         newSum(shallowCopy);
     };
 
+    /**
+     * Validates the next possible vote increment
+     * used in the vote button element.
+     * @param {array} votes 
+     * @param {boolean} direction 
+     * @returns 
+     */
     const validate = (votes, direction) => {
         if (credits === 0 && votes === 0) {
             return false;
@@ -55,11 +77,15 @@ const Vote = () => {
         }
     };
 
-    const bindAnswerToQuestionId = () => {
+    /**
+     *  Before submit, this binds the votes in votes array
+     * to original database statement id.
+     */
+    const bindVotesToStatementId = () => {
         let arr = [];
-        for (let i = 0; i < questions.length; i++) {
+        for (let i = 0; i < statements.length; i++) {
             let obj = {};
-            obj.id = questions[i]["question_id"];
+            obj.id = statements[i]["question_id"];
             obj.votes = votesArray[i];
             arr.push(obj);
         }
@@ -67,12 +93,21 @@ const Vote = () => {
         return arr;
     };
 
+    /**
+     * Retrieves cookie for authentication
+     * @param {name of the cookie} name 
+     * @returns 
+     */
     const getCookie = name => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
+    /**
+     * Post votes to API and redirect to homepage
+     * @param {event} e 
+     */
     const submitAnswer = async (e) => {
         e.preventDefault();
         try {
@@ -81,7 +116,7 @@ const Vote = () => {
             const config = {
                 method: "post",
                 url: `/api/poll/${meta.poll_id}`,
-                data: bindAnswerToQuestionId(),
+                data: bindVotesToStatementId(),
                 credentials: 'same-origin',
                 headers: {
                     "X-CSRF-TOKEN": getCookie("csrf_access_token")
@@ -106,7 +141,7 @@ const Vote = () => {
                         <p>Total Credits: {meta['credits']}</p>
                     </div>
                     <div className="poll_statements">
-                        {questions.map((question, index) => {
+                        {statements.map((question, index) => {
                             return (
                                 <div className="statement" key={index}>
                                     <div className="header">

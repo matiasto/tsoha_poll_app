@@ -3,11 +3,19 @@ import useAxios from "../components/useAxios";
 import PollReview from "../poll/PollReview";
 import UserVoteDetails from "./UserVoteDetails";
 
+
+/**
+ * displays users votes and renders options for ratings and details
+ */
 const UserVotes = () => {
     const { response: polls, loading } = useAxios({ url: "/api/user/votes" });
     const [visibleRatings, setVisibleRating] = useState({});
     const [visibleDetails, setVisibleDetails] = useState({});
 
+    /**
+     * Handles the show/hide on rating element
+     * @param {int} id 
+     */
     const handleShowRating = id => {
         if (!(id in visibleRatings)) {
             setVisibleRating({ ...visibleRatings, [id]: false });
@@ -19,6 +27,10 @@ const UserVotes = () => {
         }
     }
 
+    /**
+     * Handles the show/hide on details element
+     * @param {int} id 
+     */
     const handleShowDetails = id => {
         if (!(id in visibleDetails)) {
             setVisibleDetails({ ...visibleDetails, [id]: false });

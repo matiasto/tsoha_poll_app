@@ -1,10 +1,17 @@
 import { useState } from "react";
 import axios from "axios";
 
-
+/**
+ * Responsible for Signout
+ * @param {methods from parent component} props 
+ */
 const SignOut = props => {
     const [text, setText] = useState("Logout");
 
+    /**
+     * Submits Signout event to API and unsets the App components Signedin state. 
+     * @param {event} e 
+     */
     const submitSignOut = async (e) => {
         e.preventDefault();
         try {

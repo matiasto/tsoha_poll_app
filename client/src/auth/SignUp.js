@@ -2,12 +2,20 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
+/**
+ * Resposible for Signup. Does not login
+ */
 const SignUp = () => {
     const [signUpForm, setSignUpForm] = useState({ email: "", password: "", firstname: "", lastname: "" });
     const [message, setMessage] = useState("");
     const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
 
+    /**
+     * Sends the singup request to API and navigates to login screen
+     * @param {event} e 
+     */
     const submitSignUp = async (e) => {
         e.preventDefault();
         try {
@@ -27,6 +35,10 @@ const SignUp = () => {
         }
     }
 
+    /**
+     * Handles changes on sign up form state
+     * @param {event} e 
+     */
     const handleChange = e => {
         const { value, name } = e.target;
         setSignUpForm(old => ({

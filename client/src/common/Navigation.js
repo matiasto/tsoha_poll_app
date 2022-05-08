@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import SignOut from "../auth/SignOut";
 
+
+/**
+ * The navbar element
+ * @param {SingIn setState method} props 
+ */
 const Navigation = props => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">

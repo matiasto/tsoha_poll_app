@@ -1,6 +1,10 @@
 import PollList from "../poll/PollsList";
 import useAxios from "../components/useAxios";
 
+
+/**
+ * Home component. Includes the PollList component.
+ */
 const Home = () => {
     const { response: polls, loading } = useAxios({ url: "/api/polls" })
 

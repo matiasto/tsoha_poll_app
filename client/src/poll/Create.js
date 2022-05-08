@@ -14,6 +14,9 @@ const defaultQuestion = {
     description: ""
 };
 
+/**
+ * Create Poll element
+ */
 const CreatePoll = () => {
     const [meta, setMeta] = useState(defaultMeta);
     const [current, setCurrent] = useState(defaultQuestion);
@@ -22,34 +25,64 @@ const CreatePoll = () => {
     const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
 
+    /**
+     * Handles changes on meta data, such as title, credits...
+     * @param {str} field 
+     * @param {str} value 
+     */
     const setMetaData = (field, value) => {
         setMeta({ ...meta, [field]: value });
     };
 
+    /**
+     * Pushes question to staging area ready for poll submit.
+     */
     const pushQuestionToPoll = () => {
         setPoll(oldPoll => [...oldPoll, current]);
         setCurrent(defaultQuestion);
     };
 
+    /**
+     * removes poll from submit staging area
+     * @param {int} index 
+     */
     const deleteQuestionFromPoll = index => {
         setPoll(poll.filter((_, i) => i !== index));
     };
 
+    /**
+     * Handles changes on currently active statement field.
+     * @param {str} field 
+     * @param {str} value 
+     */
     const updateCurrent = (field, value) => {
         setCurrent({ ...current, [field]: value });
     };
 
+    /**
+     * Handles edit request on staging are polls.
+     * @param {int} index 
+     */
     const editQuestion = index => {
         setCurrent(poll[index]);
         deleteQuestionFromPoll(index);
     };
 
+    /**
+     * Gets cookie for authentication
+     * @param {name of the cookie} name 
+     * @returns 
+     */
     const getCookie = name => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
+    /**
+     * Posts poll data to API and navigates to homescreen.
+     * @param {event} e 
+     */
     const submitPoll = async (e) => {
         e.preventDefault();
         try {

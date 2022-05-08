@@ -13,16 +13,27 @@ import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import Profile from "./user/Profile";
 
+/**
+ * The main component. Handles the routing based on authentication status.
+ */
 const App = () => {
     const [signedIn, setSignedIn] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    /**
+     * Retrieves cookie for authentication
+     * @param {name of the cookie} name 
+     * @returns 
+     */
     const getCookie = name => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
+    /**
+     * Hook for testing the validity of JWT.
+     */
     useEffect(() => {
         const cred = getCookie("csrf_access_token");
         const config = {

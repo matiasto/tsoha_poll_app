@@ -2,22 +2,41 @@ import { useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import axios from 'axios';
 
+
+/**
+ * Responsible for poll review
+ * @param {poll meta elements} props 
+ * @returns 
+ */
 const PollReview = props => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [message, setMessage] = useState("");
     const [showMessage, setShowMessage] = useState(false);
 
+    /**
+     * Handles changes on rating.
+     * @param {given rate value} rate 
+     */
     const handleRating = rate => {
         setRating(rate / 20)
     }
 
+    /**
+     * Gets cookie for authentication
+     * @param {name of the cookie} name 
+     * @returns 
+     */
     const getCookie = name => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
+    /**
+     * Posts rating to API and closes component
+     * @param {event} e 
+     */
     const submitRating = async (e) => {
         e.preventDefault();
         try {

@@ -1,5 +1,9 @@
 import { Link } from "react-router-dom";
 
+/**
+ * Lists polls and sets up link to vote.
+ * @param {Poll data in a list of objects} param0 
+ */
 const PollList = ({ polls }) => {
 
     if (!polls.length) {

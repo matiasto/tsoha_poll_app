@@ -4,12 +4,21 @@ import useAxios from "../components/useAxios";
 import UserPollDetails from "./UserPollDetails";
 import UserPollRatings from "./UserPollRatings";
 
+
+/**
+ * Retrieves users polls and renders options buttons to 
+ * display detailed data or ratings.
+ */
 const UserPolls = () => {
 
     const { response: polls, loading } = useAxios({ url: "/api/user/polls" });
     const [visible, setVisible] = useState({});
     const [ratingVisible, setRatingVisible] = useState({});
 
+    /**
+     * Handles the show/hide action on details element
+     * @param {int} id 
+     */
     const handleShow = id => {
         if (!(id in visible)) {
             setVisible({ ...visible, [id]: false });
@@ -21,6 +30,10 @@ const UserPolls = () => {
         }
     }
 
+    /**
+     * Handles the show/hide on ratings element
+     * @param {int} id 
+     */
     const handleRatingShow = id => {
         if (!(id in ratingVisible)) {
             setRatingVisible({ ...ratingVisible, [id]: false });
@@ -32,12 +45,22 @@ const UserPolls = () => {
         }
     }
 
+    /**
+     * Retrieves cookie for authentication
+     * @param {name of the cookie} name 
+     * @returns 
+     */
     const getCookie = name => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
+    /**
+     * Posts a deactivate request to API and refreshes the page to update.
+     * @param {event} e 
+     * @param {int} id 
+     */
     const handleDeactivate = (e, id) => {
         e.preventDefault();
         const config = {
@@ -55,6 +78,11 @@ const UserPolls = () => {
             .catch(error => { })
     };
 
+    /**
+     * Posts a reactivate request to API and refreshes the page
+     * @param {event} e 
+     * @param {int} id 
+     */
     const handleReactivate = (e, id) => {
         e.preventDefault();
         const config = {

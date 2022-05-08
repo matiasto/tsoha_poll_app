@@ -2,12 +2,21 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
+/**
+ * Responsible for Singin
+ * @param {methods from parent component} props 
+ */
 const SignIn = props => {
     const [signInForm, setSignInForm] = useState({ email: "", password: "" });
     const [message, setMessage] = useState("");
     const [showMessage, setShowMessage] = useState(false);
     const navigate = useNavigate();
 
+    /**
+     * Submits sing in request to API
+     * @param {the event} e 
+     */
     const submitSignIn = async (e) => {
         e.preventDefault();
         try {
@@ -28,6 +37,10 @@ const SignIn = props => {
         }
     }
 
+    /**
+     * handles the changes on form state.
+     * @param {event} e 
+     */
     const handleChange = e => {
         const { value, name } = e.target;
         setSignInForm(old => ({

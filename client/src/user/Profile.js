@@ -2,6 +2,9 @@ import { useState } from "react";
 import UserPolls from "./UserPolls";
 import UserVotes from "./UserVotes";
 
+/**
+ * Profile front page with link to user votes and user polls
+ */
 const Profile = () => {
     const [view, setView] = useState(0)
     return (
