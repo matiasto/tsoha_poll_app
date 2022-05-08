@@ -108,3 +108,7 @@ button {
     display: inline-block;
     font-size: 16px;
 }
+
+.text_box {
+    font-size:12pt;
+}

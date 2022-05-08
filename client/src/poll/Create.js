@@ -113,9 +113,11 @@ const CreatePoll = () => {
             <div className="meta">
                 <div className="poll_title">
                     <h4>Poll Title (required)</h4>
-                    <input
+                    <textarea
+                        rows={2}
+                        cols={50}
                         type="text"
-                        id="poll_title"
+                        className="text_box"
                         placeholder="Enter poll title"
                         value={meta.poll_title}
                         onChange={e => setMetaData("poll_title", e.target.value)}
@@ -123,9 +125,11 @@ const CreatePoll = () => {
                 </div>
                 <div className="poll_description">
                     <h4>Description</h4>
-                    <input
+                    <textarea
+                        rows={5}
+                        cols={50}
                         type="text"
-                        id="poll_description"
+                        className="text_box"
                         placeholder="Enter a short description"
                         value={meta.poll_description}
                         maxLength="300"
@@ -166,17 +170,23 @@ const CreatePoll = () => {
                 <div className="add_questions">
                     <h4>Add Statement</h4>
                     <div className="add_question_header">
-                        <input
+                        <textarea
+                            rows={2}
+                            cols={50}
                             type="text"
                             placeholder="Header"
+                            className="text_box"
                             value={current.header}
                             onChange={e => updateCurrent("header", e.target.value)}
                         />
                     </div>
                     <div className="add_question_description">
-                        <input
+                        <textarea
+                            rows={5}
+                            cols={50}
                             type="text"
                             placeholder="Description"
+                            className="text_box"
                             value={current.description}
                             onChange={e => updateCurrent("description", e.target.value)}
                         />

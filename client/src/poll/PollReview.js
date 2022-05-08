@@ -61,8 +61,11 @@ const PollReview = props => {
     return (
         <div>
             <label>Comment</label>
-            <input
-                type="textarea"
+            <textarea
+                rows={7}
+                cols={20}
+                type="text"
+                className="text_box"
                 value={comment}
                 placeholder="Write a comment"
                 maxLength="300"
