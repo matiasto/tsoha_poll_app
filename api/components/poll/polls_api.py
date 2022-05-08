@@ -44,7 +44,7 @@ class PollsAPI(Resource):
         Returns:
             json response
         """
-        
+
         user_id = get_jwt_identity()
         meta = request.json["meta"]
         poll_title = meta["poll_title"]

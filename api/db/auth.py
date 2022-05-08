@@ -24,7 +24,7 @@ class Auth:
     @staticmethod
     def register(email: str, password: str, firstname: str, lastname: str):
         """Registers new user"""
-        
+
         hash_value = generate_password_hash(password)
         sql = FetchQuery.get_sql_query("register_user")
         db.session.execute(sql, {"email": email, "password": hash_value,

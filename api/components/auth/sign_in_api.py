@@ -18,7 +18,7 @@ class SignInAPI(Resource):
         Returns:
             reponse with the token stored in a cookie
         """
-        
+
         email = request.json["email"]
         password = request.json["password"]
         message, code = Validate.signin(email, password)

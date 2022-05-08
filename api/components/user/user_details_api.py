@@ -27,7 +27,7 @@ class UserDetailsAPI(Resource):
         Returns:
             json response
         """
-        
+
         user_id = get_jwt_identity()
         details = User.details(user_id, poll_id)
         headers = ["statement_id", "header",

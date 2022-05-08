@@ -11,7 +11,7 @@ class FetchQuery:
     Returns:
         query(str): target sql query
     """
-    
+
     @staticmethod
     def get_sql_query(name: str):
         url = os.path.join(os.path.dirname(__file__), "queries.json")

@@ -26,7 +26,7 @@ class Polls:
     @staticmethod
     def post(user_id: int, poll_title: str, poll_description: str, poll_credits: str, statements: list):
         """Create new poll"""
-        
+
         sql = FetchQuery.get_sql_query("post_poll_meta")
         result = db.session.execute(
             sql, {"user_id": user_id,

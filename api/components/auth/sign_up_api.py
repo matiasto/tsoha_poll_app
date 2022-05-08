@@ -13,7 +13,7 @@ class SignUpAPI(Resource):
 
     def post(self):
         """Validates input, checks for existing, and registers the new user."""
-        
+
         email = request.json["email"]
         password = request.json["password"]
         firstname = request.json["firstname"]

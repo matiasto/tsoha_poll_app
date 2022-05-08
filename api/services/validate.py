@@ -127,7 +127,7 @@ class Validate:
     @staticmethod
     def rating(user_id, poll_id, rating, comment):
         """Validate rating"""
-        
+
         if not User.rating(user_id, poll_id):
             return {"message": "existing rating"}, 403
         if rating > 5 or rating < 0:

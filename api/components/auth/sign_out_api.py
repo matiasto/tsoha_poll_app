@@ -12,7 +12,7 @@ class SignOutAPI(Resource):
 
     def post(self):
         """Unsets the access_token."""
-        
+
         response = jsonify({"msg": "logout successful"})
         unset_jwt_cookies(response)
         return response

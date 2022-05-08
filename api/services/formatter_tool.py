@@ -8,7 +8,7 @@ class FormatterTool:
     Method to format query result to something
     more accessible in Reacts point of view.
     """
-    
+
     @staticmethod
     def to_json(columns, data, to_json=False):
         def defaultconverter(o):

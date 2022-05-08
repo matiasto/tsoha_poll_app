@@ -27,7 +27,7 @@ class ReactivateAPI(Resource):
         Returns:
             json response
         """
-        
+
         user_id = get_jwt_identity()
         message, code = Validate.ownership(user_id, poll_id)
         if code == 403:
