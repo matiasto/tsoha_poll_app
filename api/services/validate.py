@@ -71,6 +71,7 @@ class Validate:
     @staticmethod
     def votes(user_id, poll_id, credits: int, data: list):
         """Validate vote data"""
+        
         if User.ownership(user_id, poll_id):
             return {"message": "owner cant vote!"}, 403
         voted_polls = list(
