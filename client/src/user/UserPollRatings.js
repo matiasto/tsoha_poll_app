@@ -18,7 +18,7 @@ const UserPollRatings = props => {
                         return (
                             <div className="statement" key={index}>
                                 <div className="header">
-                                    <h5>{rating["user"]}</h5>
+                                    <h3>{rating["user"]}</h3>
                                     <p>{rating["rating"]}</p>
                                     <p>{rating["comment"]}</p>
                                 </div>

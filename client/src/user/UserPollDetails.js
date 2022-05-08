@@ -14,6 +14,7 @@ const UserPollDetails = props => {
         <div className="poll_details">
             {loading ? (<div>Loading...</div>) : (
                 <div className="details_area">
+                    <h2>Details</h2>
                     <div className="stats_meta">
                         <label>Total votes: {meta["votes"]}</label>
                         <label>Overall rating: {meta["rating"]}</label>
@@ -22,12 +23,10 @@ const UserPollDetails = props => {
                         {details.map((detail, index) => {
                             return (
                                 <div className="statement" key={index}>
-                                    <div className="header">
-                                        <h5>{detail["header"]}</h5>
-                                        <p>{detail["description"]}</p>
-                                        <label className="avg_votes">Average Votes: {detail["average"]}</label>
-                                        <label className="median_votes">Median Votes: {detail["median"]}</label>
-                                    </div>
+                                    <h4>{detail["header"]}</h4>
+                                    <p>{detail["description"]}</p>
+                                    <label className="avg_votes">Average Votes: {detail["average"]}</label>
+                                    <label className="median_votes">Median Votes: {detail["median"]}</label>
                                 </div>
                             )
                         })}

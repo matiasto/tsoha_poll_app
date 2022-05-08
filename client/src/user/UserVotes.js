@@ -8,7 +8,7 @@ import UserVoteDetails from "./UserVoteDetails";
  * displays users votes and renders options for ratings and details
  */
 const UserVotes = () => {
-    const { response: polls, loading } = useAxios({ url: "/api/user/votes" });
+    const { response: polls, loading, refetch } = useAxios({ url: "/api/user/votes" });
     const [visibleRatings, setVisibleRating] = useState({});
     const [visibleDetails, setVisibleDetails] = useState({});
 
@@ -60,9 +60,9 @@ const UserVotes = () => {
                             {poll["visible"] === 1 ? (
                                 <div className="active_meta">
                                     <h3>{poll["title"]}</h3>
-                                    <p>sent_at: {poll["sent_at"]}</p>
+                                    <p>{poll["description"]}</p>
                                     {visibleDetails[poll["poll_id"]] && <UserVoteDetails poll={poll} />}
-                                    {visibleRatings[poll["poll_id"]] && <PollReview poll={poll} visible={visibleRatings} setRatingVisible={setVisibleRating} />}
+                                    {visibleRatings[poll["poll_id"]] && <PollReview poll={poll} handleShow={handleShowRating} refetch={refetch} />}
                                     {poll["existing_rating"] === 1 ? (
                                         <button disabled>Existing ratings</button>
                                     ) : (
@@ -83,9 +83,9 @@ const UserVotes = () => {
                             {poll["visible"] === 0 ? (
                                 <div className="inactive_meta">
                                     <h3>{poll["title"]}</h3>
-                                    <p>sent_at: {poll["sent_at"]}</p>
+                                    <p>{poll["description"]}</p>
                                     {visibleDetails[poll["poll_id"]] && <UserVoteDetails poll={poll} />}
-                                    {visibleRatings[poll["poll_id"]] && <PollReview poll={poll} visible={visibleRatings} setVisible={setVisibleRating} />}
+                                    {visibleRatings[poll["poll_id"]] && <PollReview poll={poll} handleShow={handleShowRating} refetch={refetch} />}
                                     {poll["existing_rating"] === 1 ? (
                                         <button disabled>Existing ratings</button>
                                     ) : (

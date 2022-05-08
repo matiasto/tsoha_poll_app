@@ -11,7 +11,7 @@ import UserPollRatings from "./UserPollRatings";
  */
 const UserPolls = () => {
 
-    const { response: polls, loading } = useAxios({ url: "/api/user/polls" });
+    const { response: polls, loading, refetch } = useAxios({ url: "/api/user/polls" });
     const [visible, setVisible] = useState({});
     const [ratingVisible, setRatingVisible] = useState({});
 
@@ -73,7 +73,7 @@ const UserPolls = () => {
         };
         axios(config)
             .then(response => {
-                window.location.reload(false);
+                refetch({});
             })
             .catch(error => { })
     };
@@ -95,7 +95,7 @@ const UserPolls = () => {
         };
         axios(config)
             .then(response => {
-                window.location.reload(false);
+                refetch({});
             })
             .catch(error => { })
     };
@@ -111,43 +111,47 @@ const UserPolls = () => {
     return (
         <div className="profile">
             <h2>My active polls</h2>
-            {polls.map(poll => {
-                return (
-                    <div className="poll_menu" key={poll["poll_id"]} >
-                        {poll["visible"] === 1 ? (
-                            <div>
-                                <h3>{poll["title"]}</h3>
-                                <p>{poll["description"]}</p>
-                                <p>Created_at: {poll["created_at"]}</p>
-                                {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
-                                {ratingVisible[poll["poll_id"]] && <UserPollRatings poll={poll} />}
-                                <button className="deactivate_btn" onClick={e => handleDeactivate(e, poll["poll_id"])}>Deactivate</button>
-                                <button className="details_btn" onClick={e => handleShow(poll["poll_id"])}>Details</button>
-                                <button className="ratings_btn" onClick={e => handleRatingShow(poll["poll_id"])}>Ratings</button>
-                            </div>) : null}
-                    </div>
-                )
-            }
-            )}
+            <div className="active_polls">
+                {polls.map(poll => {
+                    return (
+                        <div className="active_menu" key={poll["poll_id"]} >
+                            {poll["visible"] === 1 ? (
+                                <div>
+                                    <h3>{poll["title"]}</h3>
+                                    <p>{poll["description"]}</p>
+                                    <p>Created_at: {poll["created_at"]}</p>
+                                    {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
+                                    {ratingVisible[poll["poll_id"]] && <UserPollRatings poll={poll} />}
+                                    <button className="deactivate_btn" onClick={e => handleDeactivate(e, poll["poll_id"])}>Deactivate</button>
+                                    <button className="details_btn" onClick={e => handleShow(poll["poll_id"])}>Details</button>
+                                    <button className="ratings_btn" onClick={e => handleRatingShow(poll["poll_id"])}>Ratings</button>
+                                </div>) : null}
+                        </div>
+                    )
+                }
+                )}
+            </div>
             <h2>My inactive polls</h2>
-            {polls.map(poll => {
-                return (
-                    <div className="poll_menu" key={poll["poll_id"]} >
-                        {poll["visible"] === 0 ? (
-                            <div>
-                                <h3>{poll["title"]}</h3>
-                                <p>{poll["description"]}</p>
-                                <p>Created_at: {poll["created_at"]}</p>
-                                {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
-                                {ratingVisible[poll["poll_id"]] && <UserPollRatings poll={poll} />}
-                                <button className="reactivate_btn" onClick={e => handleReactivate(e, poll["poll_id"])}>Reactivate</button>
-                                <button className="details_btn" onClick={e => handleShow(poll["poll_id"])}>Details</button>
-                                <button className="ratings_btn" onClick={e => handleRatingShow(poll["poll_id"])}>Ratings</button>
-                            </div>) : null}
-                    </div>
-                )
-            }
-            )}
+            <div className="inactive_polls">
+                {polls.map(poll => {
+                    return (
+                        <div className="inactive_menu" key={poll["poll_id"]} >
+                            {poll["visible"] === 0 ? (
+                                <div>
+                                    <h3>{poll["title"]}</h3>
+                                    <p>{poll["description"]}</p>
+                                    <p>Created_at: {poll["created_at"]}</p>
+                                    {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
+                                    {ratingVisible[poll["poll_id"]] && <UserPollRatings poll={poll} />}
+                                    <button className="reactivate_btn" onClick={e => handleReactivate(e, poll["poll_id"])}>Reactivate</button>
+                                    <button className="details_btn" onClick={e => handleShow(poll["poll_id"])}>Details</button>
+                                    <button className="ratings_btn" onClick={e => handleRatingShow(poll["poll_id"])}>Ratings</button>
+                                </div>) : null}
+                        </div>
+                    )
+                }
+                )}
+            </div>
         </div>
     )
 }

@@ -50,7 +50,8 @@ const PollReview = props => {
                 }
             };
             await axios(config);
-            props.setVisible({ ...props.visible, [props.poll["poll_id"]]: false });
+            props.handleShow(props.poll["poll_id"]);
+            props.refetch({});
         } catch (error) {
             setMessage(error.response.data.message);
             setShowMessage(true);
