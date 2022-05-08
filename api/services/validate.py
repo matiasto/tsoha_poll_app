@@ -4,8 +4,19 @@ from ..db.user import User
 
 
 class Validate:
+    """Validate different inputs
+
+    Used to validate inputs before applying
+    app logic.
+
+    Returns:
+        json response.
+    """
+
     @staticmethod
     def signin(email: str, password: str):
+        """Validate sing in input data."""
+
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if not re.fullmatch(regex, email) or len(email) > 50:
             return {"message": "Email in wrong format!"}, 403
@@ -15,6 +26,8 @@ class Validate:
 
     @staticmethod
     def credentials(user, password):
+        """Confirm credentials"""
+
         if not user:
             return {"message": "Email does not exist"}, 403
         else:
@@ -26,6 +39,8 @@ class Validate:
 
     @staticmethod
     def signup(email: str, password: str, firstname: str, lastname: str):
+        """Validate sign up data."""
+
         message = None
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if not re.fullmatch(regex, email) or len(email) > 50:
@@ -55,6 +70,8 @@ class Validate:
 
     @staticmethod
     def votes(user_id, poll_id, credits: int, data: list):
+        """Validate vote data"""
+
         voted_polls = list(
             filter(lambda x: x[0] == poll_id, User.votes(user_id)))
         if voted_polls:
@@ -72,6 +89,8 @@ class Validate:
 
     @staticmethod
     def meta(poll_title: str, poll_description: str, poll_credits: int):
+        """Validate meta data in poll creation"""
+
         message = None
         if len(poll_title) > 100 or poll_title == "":
             message = {"message": "Invalid title!"}
@@ -86,6 +105,8 @@ class Validate:
 
     @staticmethod
     def statements(statements: list):
+        """Validate statements in poll creation"""
+
         for i, statement in enumerate(statements, start=1):
             header = statement["header"]
             description = statement["description"]
@@ -97,12 +118,16 @@ class Validate:
 
     @staticmethod
     def ownership(user_id, poll_id):
+        """Validate poll ownership"""
+
         if not User.ownership(user_id, poll_id):
             return {"message": "no ownership!"}, 403
         return {"message": "valid"}, 200
 
     @staticmethod
     def rating(user_id, poll_id, rating, comment):
+        """Validate rating"""
+        
         if not User.rating(user_id, poll_id):
             return {"message": "existing rating"}, 403
         if rating > 5 or rating < 0:

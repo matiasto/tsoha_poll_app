@@ -7,9 +7,27 @@ from ...db.polls import Polls
 
 
 class PollsAPI(Resource):
+    """Handles operations on all polls.
+
+    Requies authentication.
+
+    Args:
+        Resource: RESTful resource
+    """
+
     method_decorators = [jwt_required()]
 
     def get(self):
+        """Retrieves all available polls
+
+        This includes; polls that are not created by the requesting user,
+        polls the user has already voted, and hidden/deactivated polls.
+
+
+        Returns:
+            json response of all the availabel polls.
+        """
+
         user_id = get_jwt_identity()
         polls = Polls.get(user_id)
         headers = ["poll_id", "title", "description", "credits",
@@ -18,6 +36,15 @@ class PollsAPI(Resource):
         return jsonify(data)
 
     def post(self):
+        """Creates a new poll.
+
+        Check for validity of input
+        and registers the poll to database.
+
+        Returns:
+            json response
+        """
+        
         user_id = get_jwt_identity()
         meta = request.json["meta"]
         poll_title = meta["poll_title"]

@@ -7,9 +7,29 @@ from ...db.user import User
 
 
 class UserRatingsAPI(Resource):
+    """Retrieves ratings related to users poll.
+
+    Requires authentication.
+
+    Args:
+        Resource: RESTful resource
+    """
+
     method_decorators = [jwt_required()]
 
     def get(self, poll_id):
+        """Retrieves the ratings on the poll
+
+        Validates the ownership of the poll, 
+        and retrieves the data.
+
+        Args:
+            poll_id (int): Poll to get the ratings
+
+        Returns:
+            json response
+        """
+
         user_id = get_jwt_identity()
         message, code = Validate.ownership(user_id, poll_id)
         if code == 403:

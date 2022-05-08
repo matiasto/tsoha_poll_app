@@ -7,9 +7,29 @@ from ...db.poll import Poll
 
 
 class DetailsAPI(Resource):
+    """Retrieves the details on users own poll
+
+    Requires authentication.
+
+    Args:
+        Resource: RESTful resource
+    """
+
     method_decorators = [jwt_required()]
 
     def get(self, poll_id):
+        """Retrieves data
+
+        Validate users ownership over the poll and
+        retrieve the details.
+
+        Args:
+            poll_id (int): poll details to get
+
+        Returns:
+            response: a json object holding the detailed information.
+        """
+
         user_id = get_jwt_identity()
         message, code = Validate.ownership(user_id, poll_id)
         if code == 403:

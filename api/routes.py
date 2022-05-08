@@ -30,11 +30,18 @@ jwt = JWTManager(app)
 
 @jwt.invalid_token_loader
 def invalid_token(token):
+    """Check for incalid tokens"""
+
     return {"message", "invalid token"}
 
 
 @app.after_request
 def refresh_expiring_jwts(response):
+    """Refreshes access tokens
+
+    Called after every request.
+    """
+
     try:
         exp_timestamp = get_jwt()["exp"]
         now = datetime.now(timezone.utc)
@@ -46,6 +53,8 @@ def refresh_expiring_jwts(response):
     except (RuntimeError, KeyError):
         return response
 
+
+"""The API endpoint for all routes"""
 
 api = Api(app)
 
@@ -65,9 +74,13 @@ api.add_resource(UserRatingsAPI, "/api/user/ratings/<int:poll_id>")
 
 @app.route("/")
 def serve():
+    """Serves the React package"""
+
     return send_from_directory(app.static_folder, "index.html")
 
 
 @app.errorhandler(404)
 def not_found(e):
+    """Moves 404 problem to the client side router"""
+
     return send_from_directory(app.static_folder, "index.html")

@@ -5,7 +5,15 @@ from ...db.auth import Auth
 
 
 class SignUpAPI(Resource):
+    """Handles the sing up.
+
+    Args:
+       Resource: RESTful resource
+    """
+
     def post(self):
+        """Validates input, checks for existing, and registers the new user."""
+        
         email = request.json["email"]
         password = request.json["password"]
         firstname = request.json["firstname"]

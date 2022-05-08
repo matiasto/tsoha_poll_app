@@ -5,9 +5,29 @@ from ...db.poll import Poll
 
 
 class ReactivateAPI(Resource):
+    """Handles the reactivation of poll.
+
+    Args:
+        Resource: RESTful resource
+    """
+
     method_decorators = [jwt_required()]
 
     def post(self, poll_id):
+        """Reactivate the poll
+
+        Requires authentication.
+
+        Validate the ownership of the poll and 
+        then reactivate.
+
+        Args:
+            poll_id (int): poll to be activated
+
+        Returns:
+            json response
+        """
+        
         user_id = get_jwt_identity()
         message, code = Validate.ownership(user_id, poll_id)
         if code == 403:
