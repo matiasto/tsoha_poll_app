@@ -1,7 +1,8 @@
-from flask import request, jsonify
+from flask import request
 from flask_restful import Resource
 from ...services.validate import Validate
 from ...db.auth import Auth
+
 
 class SignUpAPI(Resource):
     def post(self):
@@ -19,4 +20,3 @@ class SignUpAPI(Resource):
             return {"message": "email address is not available"}, 403
         Auth.register(email, password, firstname, lastname)
         return {"message": "successful signup"}, 200
-    

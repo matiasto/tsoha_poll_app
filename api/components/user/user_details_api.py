@@ -11,6 +11,7 @@ class UserDetailsAPI(Resource):
     def get(self, poll_id):
         user_id = get_jwt_identity()
         details = User.details(user_id, poll_id)
-        headers = ["question_id", "header", "description", "vote", "average", "median"]
+        headers = ["question_id", "header",
+                   "description", "vote", "average", "median"]
         data = FormatterTool.to_json(headers, details)
         return json.dumps(data)

@@ -1,6 +1,7 @@
 from json import load
 import os
 
+
 class FetchQuery:
     @staticmethod
     def get_sql_query(name: str):

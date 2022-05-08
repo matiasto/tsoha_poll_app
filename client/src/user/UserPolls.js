@@ -13,7 +13,7 @@ const UserPolls = () => {
     const handleShow = id => {
         if (!(id in visible)) {
             setVisible({ ...visible, [id]: false });
-        } 
+        }
         if (visible[id]) {
             setVisible({ ...visible, [id]: false });
         } else {
@@ -24,20 +24,20 @@ const UserPolls = () => {
     const handleRatingShow = id => {
         if (!(id in ratingVisible)) {
             setRatingVisible({ ...ratingVisible, [id]: false });
-        } 
+        }
         if (ratingVisible[id]) {
             setRatingVisible({ ...ratingVisible, [id]: false });
         } else {
             setRatingVisible({ ...ratingVisible, [id]: true });
         }
     }
-    
+
     const getCookie = name => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-    
+
     const handleDeactivate = (e, id) => {
         e.preventDefault();
         const config = {

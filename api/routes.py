@@ -1,5 +1,12 @@
 from os import getenv
 from app import app
+from flask_restful import Api
+from flask import send_from_directory
+from flask_jwt_extended import (
+    JWTManager, create_access_token,
+    get_jwt_identity, get_jwt, set_access_cookies
+)
+from datetime import timedelta, datetime, timezone
 from .components.auth.sign_in_api import SignInAPI
 from .components.auth.sign_out_api import SignOutAPI
 from .components.auth.sign_up_api import SignUpAPI
@@ -12,13 +19,6 @@ from .components.poll.polls_api import PollsAPI
 from .components.poll.details_api import DetailsAPI
 from .components.poll.reactivate_api import ReactivateAPI
 from .components.poll.rate_api import RateAPI
-from flask_restful import Api
-from flask import send_from_directory
-from flask_jwt_extended import (
-    JWTManager, create_access_token,
-    get_jwt_identity, get_jwt, set_access_cookies
-)
-from datetime import timedelta, datetime, timezone
 
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["JWT_COOKIE_SECURE"] = False
@@ -27,9 +27,11 @@ app.config["JWT_SECRET_KEY"] = getenv("SECRET_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
+
 @jwt.invalid_token_loader
 def invalid_token(token):
     return {"message", "invalid token"}
+
 
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -43,6 +45,7 @@ def refresh_expiring_jwts(response):
         return response
     except (RuntimeError, KeyError):
         return response
+
 
 api = Api(app)
 
@@ -63,6 +66,7 @@ api.add_resource(UserRatingsAPI, "/api/user/ratings/<int:poll_id>")
 @app.route("/")
 def serve():
     return send_from_directory(app.static_folder, "index.html")
+
 
 @app.errorhandler(404)
 def not_found(e):

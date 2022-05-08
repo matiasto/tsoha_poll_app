@@ -2,6 +2,7 @@ from werkzeug.security import check_password_hash
 import re
 from ..db.user import User
 
+
 class Validate:
     @staticmethod
     def signin(email: str, password: str):
@@ -11,7 +12,6 @@ class Validate:
         elif len(password) > 50:
             return {"message": "Password in wrong format"}, 403
         return {"message": "ok"}, 200
-
 
     @staticmethod
     def credentials(user, password):
@@ -37,13 +37,15 @@ class Validate:
         elif len(firstname) < 2:
             message = {"message": "firstname too short"}
         elif not firstname.isalpha():
-            message = {"message": "invalid firstname (only alphabetic characters are allowed)"}
+            message = {
+                "message": "invalid firstname (only alphabetic characters are allowed)"}
         elif len(firstname) > 20:
             message = {"message": "firstname too long"}
         elif len(lastname) < 2:
             message = {"message": "lastname too short"}
         elif not lastname.isalpha():
-            message = {"message": "invalid lastname (only alphabetic characters are allowed)"}
+            message = {
+                "message": "invalid lastname (only alphabetic characters are allowed)"}
         elif len(lastname) > 20:
             message = {"message": "lastname too long"}
         if not message:
@@ -53,7 +55,8 @@ class Validate:
 
     @staticmethod
     def votes(user_id, poll_id, credits: int, data: list):
-        voted_polls = list(filter(lambda x: x[0] == poll_id, User.votes(user_id)))
+        voted_polls = list(
+            filter(lambda x: x[0] == poll_id, User.votes(user_id)))
         if voted_polls:
             return {"message": "can not vote multiple times!"}, 403
         check = 0
@@ -107,4 +110,3 @@ class Validate:
         if len(comment) > 300:
             return {"message": "Description is too long!"}, 403
         return {"message": "valid"}, 200
-        

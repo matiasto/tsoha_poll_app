@@ -1,6 +1,7 @@
 import json
 import datetime
 
+
 class FormatterTool:
     @staticmethod
     def to_json(columns, data, to_json=False):

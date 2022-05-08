@@ -11,7 +11,7 @@ const UserVotes = () => {
     const handleShowRating = id => {
         if (!(id in visibleRatings)) {
             setVisibleRating({ ...visibleRatings, [id]: false });
-        } 
+        }
         if (visibleRatings[id]) {
             setVisibleRating({ ...visibleRatings, [id]: false });
         } else {
@@ -22,7 +22,7 @@ const UserVotes = () => {
     const handleShowDetails = id => {
         if (!(id in visibleDetails)) {
             setVisibleDetails({ ...visibleDetails, [id]: false });
-        } 
+        }
         if (visibleDetails[id]) {
             setVisibleDetails({ ...visibleDetails, [id]: false });
         } else {

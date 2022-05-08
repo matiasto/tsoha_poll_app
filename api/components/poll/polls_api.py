@@ -1,8 +1,8 @@
 from flask import jsonify, request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from ...services.formatter_tool import FormatterTool
 from ...services.validate import Validate
+from ...services.formatter_tool import FormatterTool
 from ...db.polls import Polls
 
 
@@ -12,7 +12,8 @@ class PollsAPI(Resource):
     def get(self):
         user_id = get_jwt_identity()
         polls = Polls.get(user_id)
-        headers = ["poll_id", "title", "description", "credits", "created_at", "created_by", "rating", "votes"]
+        headers = ["poll_id", "title", "description", "credits",
+                   "created_at", "created_by", "rating", "votes"]
         data = FormatterTool.to_json(headers, polls, to_json=True)
         return jsonify(data)
 

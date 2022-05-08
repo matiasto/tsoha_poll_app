@@ -2,7 +2,7 @@ import PollList from "../poll/PollsList";
 import useAxios from "../components/useAxios";
 
 const Home = () => {
-    const { response: polls, loading } = useAxios({url: "/api/polls"})
+    const { response: polls, loading } = useAxios({ url: "/api/polls" })
 
     return (
         <div className="home">
@@ -22,8 +22,8 @@ const Home = () => {
                     </p>
                     <h5>Quadratic voting</h5>
                     <p>
-                        A normal poll might ask you whether you agree or disagree with a set of issues, 
-                        quadratic voting gives Voters a budget of “voice credits”, which they can spend to agree or disagree with each issue. 
+                        A normal poll might ask you whether you agree or disagree with a set of issues,
+                        quadratic voting gives Voters a budget of “voice credits”, which they can spend to agree or disagree with each issue.
                         Voters can cast multiple votes in favour of or opposed to each issue, but each vote costs more than the last in terms of credits.
                     </p>
                     <p>
@@ -41,7 +41,7 @@ const Home = () => {
                         As an early version, voting can be a little tricky. You vote by clicking either agree or disagree, you'll see your current credit balance,
                         as well as allocated votes, note that negative number is same as disagree and positive agree. You can take back allocated votes by pressing the opposite
                         button, to further ilustrate, let's say you've given 5 votes to something you agree with. Later on, you come across a statement that you really want to,
-                        agree with. In this case, you can go back to (for example) the statement you agreed with 5 votes and press disagree, now you agree "less" with that statement 
+                        agree with. In this case, you can go back to (for example) the statement you agreed with 5 votes and press disagree, now you agree "less" with that statement
                         but in return you've accuired more credits to allocate to other statements.
                     </p>
                 </div>

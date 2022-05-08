@@ -3,7 +3,7 @@ import useAxios from "../components/useAxios";
 const UserPollDetails = props => {
 
     const meta = props.poll;
-    const { response: details, loading } = useAxios({url: `/api/poll/details/${meta["poll_id"]}`})
+    const { response: details, loading } = useAxios({ url: `/api/poll/details/${meta["poll_id"]}` })
 
     return (
         <div className="poll_details">

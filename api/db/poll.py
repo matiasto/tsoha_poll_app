@@ -1,4 +1,3 @@
-from asyncore import poll
 from ..services.fetch_query import FetchQuery
 from .db import db
 

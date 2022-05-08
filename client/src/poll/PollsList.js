@@ -6,8 +6,8 @@ const PollList = ({ polls }) => {
         return (
             <div>
                 <h4>No available polls</h4>
-                <p>You've voted on all of them or none are active.</p> 
-                <p>In the mean time you can create your own poll for everyone else or review polls you've voted for in the profile page - my votes tab.</p> 
+                <p>You've voted on all of them or none are active.</p>
+                <p>In the mean time you can create your own poll for everyone else or review polls you've voted for in the profile page - my votes tab.</p>
             </div>
         )
     }

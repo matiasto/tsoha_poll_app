@@ -30,24 +30,24 @@ const App = () => {
             url: "/api/user/polls",
             credentials: 'same-origin',
             headers: {
-              "X-CSRF-TOKEN": cred
+                "X-CSRF-TOKEN": cred
             }
         };
         axios(config)
-        .then(response => {
-            setSignedIn(true);
-        })
-        .catch(error => {})
-        .finally(() => {
-            setLoading(false);
-        })
+            .then(response => {
+                setSignedIn(true);
+            })
+            .catch(error => { })
+            .finally(() => {
+                setLoading(false);
+            })
     }, [])
 
     return (
         <div className="app">
             {signedIn ? (
                 <BrowserRouter>
-                    <Navigation setSignedIn={setSignedIn}/>
+                    <Navigation setSignedIn={setSignedIn} />
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="create" element={<CreatePoll />} />
@@ -67,7 +67,7 @@ const App = () => {
                     </BrowserRouter>
                 )
             )}
-            
+
         </div>
     );
 }
