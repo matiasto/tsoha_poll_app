@@ -7,13 +7,12 @@ nav {
 }
 
 .navbar a:link {
-    background-color: lightblue;
-    color: white;
+    background-color: lightgreen;
+    color: black;
     padding: 14px 25px;
     text-align: center; 
     text-decoration: none;
     display: inline-block;
-    border: solid white;
 }
 
 body {
