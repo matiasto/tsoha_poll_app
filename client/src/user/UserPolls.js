@@ -2,11 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import useAxios from "../components/useAxios";
 import UserPollDetails from "./UserPollDetails";
+import UserPollRatings from "./UserPollRatings";
 
 const UserPolls = () => {
 
     const { response: polls, loading } = useAxios({ url: "/api/user/polls" });
     const [visible, setVisible] = useState({});
+    const [ratingVisible, setRatingVisible] = useState({});
 
     const handleShow = id => {
         if (!(id in visible)) {
@@ -19,12 +21,23 @@ const UserPolls = () => {
         }
     }
 
+    const handleRatingShow = id => {
+        if (!(id in ratingVisible)) {
+            setRatingVisible({ ...ratingVisible, [id]: false });
+        } 
+        if (ratingVisible[id]) {
+            setRatingVisible({ ...ratingVisible, [id]: false });
+        } else {
+            setRatingVisible({ ...ratingVisible, [id]: true });
+        }
+    }
+    
     const getCookie = name => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-
+    
     const handleDeactivate = (e, id) => {
         e.preventDefault();
         const config = {
@@ -79,8 +92,10 @@ const UserPolls = () => {
                                 <p>{poll["description"]}</p>
                                 <p>Created_at: {poll["created_at"]}</p>
                                 {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
+                                {ratingVisible[poll["poll_id"]] && <UserPollRatings poll={poll} />}
                                 <button className="deactivate_btn" onClick={e => handleDeactivate(e, poll["poll_id"])}>Deactivate</button>
                                 <button className="details_btn" onClick={e => handleShow(poll["poll_id"])}>Details</button>
+                                <button className="ratings_btn" onClick={e => handleRatingShow(poll["poll_id"])}>Ratings</button>
                             </div>) : null}
                     </div>
                 )
@@ -96,8 +111,10 @@ const UserPolls = () => {
                                 <p>{poll["description"]}</p>
                                 <p>Created_at: {poll["created_at"]}</p>
                                 {visible[poll["poll_id"]] && <UserPollDetails poll={poll} />}
+                                {ratingVisible[poll["poll_id"]] && <UserPollRatings poll={poll} />}
                                 <button className="reactivate_btn" onClick={e => handleReactivate(e, poll["poll_id"])}>Reactivate</button>
                                 <button className="details_btn" onClick={e => handleShow(poll["poll_id"])}>Details</button>
+                                <button className="ratings_btn" onClick={e => handleRatingShow(poll["poll_id"])}>Ratings</button>
                             </div>) : null}
                     </div>
                 )
