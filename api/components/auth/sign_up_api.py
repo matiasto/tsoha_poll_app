@@ -23,7 +23,7 @@ class SignUpAPI(Resource):
         if code == 403:
             return message, code
 
-        user = Auth.get(email, password)
+        user = Auth.get(email)
         if user:
             return {"message": "email address is not available"}, 403
         Auth.register(email, password, firstname, lastname)

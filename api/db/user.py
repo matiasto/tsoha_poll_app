@@ -17,7 +17,7 @@ class User:
         """
 
         sql = FetchQuery.get_sql_query("get_user_polls")
-        result = db.session.execute(sql, {"id": user_id})
+        result = db.session.execute(sql, {"user_id": user_id})
         return result.fetchall()
 
     @staticmethod
@@ -32,7 +32,7 @@ class User:
         """
 
         sql = FetchQuery.get_sql_query("get_user_votes")
-        result = db.session.execute(sql, {"id": user_id})
+        result = db.session.execute(sql, {"user_id": user_id})
         return result.fetchall()
 
     @staticmethod

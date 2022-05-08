@@ -17,7 +17,7 @@ class Poll:
         """
 
         sql = FetchQuery.get_sql_query("get_poll_statements")
-        result = db.session.execute(sql, {"id": poll_id})
+        result = db.session.execute(sql, {"poll_id": poll_id})
         return result.fetchall()
 
     @staticmethod
@@ -62,7 +62,7 @@ class Poll:
         """
 
         sql = FetchQuery.get_sql_query("deactivate_poll")
-        db.session.execute(sql, {"id": poll_id})
+        db.session.execute(sql, {"poll_id": poll_id})
         db.session.commit()
 
     @staticmethod
@@ -74,7 +74,7 @@ class Poll:
         """
 
         sql = FetchQuery.get_sql_query("reactivate_poll")
-        db.session.execute(sql, {"id": poll_id})
+        db.session.execute(sql, {"poll_id": poll_id})
         db.session.commit()
 
     @staticmethod
